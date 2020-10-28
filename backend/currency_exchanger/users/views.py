@@ -19,8 +19,6 @@ class UserViewset(viewsets.ModelViewSet):
 
 
 
-class UserInfoViewset(viewsets.ModelViewSet):
-    queryset = models.UserInfo.objects.all()
-    serializer_class = serializers.UserInfoSerializer
+
 
 
