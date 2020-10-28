@@ -11,13 +11,13 @@
                         </v-toolbar>
                         <v-card-text>
                             <v-form>
-                                <v-alert
+                                <!-- <v-alert
                                 :value="true"
                                 color="error"
                                 icon="mdi-alert"
                                 >
                                 This user already exist, try a diffrent one
-                                </v-alert>
+                                </v-alert> -->
 
                             <v-text-field
                             prepend-icon="mdi-account"
