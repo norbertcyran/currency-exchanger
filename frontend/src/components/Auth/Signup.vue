@@ -23,6 +23,7 @@
                             prepend-icon="mdi-account"
                             name="login"
                             label="Login"
+                            v-model="nick"
                             :rules="[rules.required]"
                             >
                             </v-text-field> 
@@ -31,6 +32,7 @@
                             prepend-icon="mdi-email"
                             name="email"
                             label="Email"
+                            v-model="email"
                             :rules="[rules.required, rules.email]"
                             >
                             </v-text-field> 
@@ -65,7 +67,7 @@
                         <v-card-actions>
                             <v-btn to="/login" round color="black" dark>Sign in</v-btn>
                             <v-spacer></v-spacer>
-                            <v-btn roun color="success" dark>Register
+                            <v-btn roun color="success" dark @click.native="register" >Register
                                 <v-icon>mdi-chevron-up</v-icon>
                             </v-btn>
                         </v-card-actions>
@@ -81,6 +83,9 @@ export default {
     data:() =>({
         password:'',
         confirm_password:'',
+        nick:'',
+        email:'',
+
         rules:{
             required: value=> !!value || "Required",
             email: value=>{
@@ -89,7 +94,33 @@ export default {
             }
         }
     }),
+    computed:{
+        isFormValid:{
+            get:()=>({
+                
+
+
+            })
+        } 
+
+
+    },
+
+
     methods:{
+        register(){
+            let data = {
+            nick: this.nick,
+            email: this.email,
+            password: this.password,
+            }
+            this.$store.dispatch('register', data)
+        .then(() => this.$router.push('/'))
+        .catch(err => console.log(err))
+        
+
+            
+        },
         valid(){
             return this.password===this.confirm_password;
             },
