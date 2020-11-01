@@ -29,9 +29,9 @@
             </v-card-text>
             <v-divider light></v-divider>
             <v-card-actions>
-              <v-btn to="/signup" rounded color="indigo" dark>Sign up</v-btn>
+              <v-btn to="/signup" color="indigo" dark>Sign up</v-btn>
               <v-spacer></v-spacer>
-              <v-btn rounded color="indigo" dark @click.native="login"
+              <v-btn color="indigo" dark @click.native="login"
                 >Login
                 <v-icon>mdi-arrow-right</v-icon>
               </v-btn>

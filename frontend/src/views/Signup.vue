@@ -63,9 +63,9 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn to="/login" round color="black" dark>Sign in</v-btn>
+            <v-btn to="/login" color="black" dark>Sign in</v-btn>
             <v-spacer></v-spacer>
-            <v-btn roun color="success" dark @click.native="register"
+            <v-btn color="success" dark @click.native="register"
               >Register
               <v-icon>mdi-chevron-up</v-icon>
             </v-btn>
