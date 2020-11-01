@@ -51,7 +51,6 @@ export default {
   }),
   methods: {
     login() {
-      console.log("ja");
       let email = this.email;
       let password = this.password;
       this.$store
