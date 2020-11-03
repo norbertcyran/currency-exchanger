@@ -2,7 +2,7 @@
   <v-container fill-height>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md6>
-        <v-form>
+        <v-form @submit="onSubmit">
           <v-card class="elevation-12">
             <v-toolbar dark color="blue">
               <v-toolbar-title>
@@ -31,7 +31,7 @@
             <v-card-actions>
               <v-btn to="/signup" color="indigo" dark>Sign up</v-btn>
               <v-spacer></v-spacer>
-              <v-btn color="indigo" dark @click.native="login"
+              <v-btn color="indigo" dark type="submit"
                 >Login
                 <v-icon>mdi-arrow-right</v-icon>
               </v-btn>
@@ -50,13 +50,13 @@ export default {
     password: ""
   }),
   methods: {
-    login() {
-      let email = this.email;
-      let password = this.password;
-      this.$store
-        .dispatch("login", { email, password })
-        .then(() => this.$router.push("/"))
-        .catch(err => console.log(err));
+    async onSubmit(event) {
+      event.preventDefault();
+      await this.$store.dispatch("login", {
+        username: this.email,
+        password: this.password
+      });
+      await this.$router.push("/");
     }
   }
 };
