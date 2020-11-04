@@ -1,9 +1,23 @@
-import { createApp } from "vue";
+import Vue from "vue";
+import VueAxios from "vue-axios";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import vuetify from "./plugins/vuetify";
+import axios from "axios";
 
-createApp(App)
-  .use(store)
-  .use(router)
-  .mount("#app");
+axios.defaults.baseURL = process.env.VUE_APP_API_URL;
+const token = localStorage.getItem("token");
+if (token) {
+  axios.defaults.headers.common["Authorization"] = token;
+}
+Vue.use(VueAxios, axios);
+
+Vue.config.productionTip = false;
+
+new Vue({
+  router,
+  store,
+  vuetify,
+  render: h => h(App)
+}).$mount("#app");
