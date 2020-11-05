@@ -12,7 +12,9 @@
         <h5 class="text-h5 font-weight-light my-5">
           Online banking, currency exchange, stock trading. All in one place.
         </h5>
-        <v-btn x-large color="primary" class="my-3">Register now</v-btn>
+        <v-btn to="/signup" x-large color="primary" class="my-3">
+          Register now
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>

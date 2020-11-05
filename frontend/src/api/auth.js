@@ -5,7 +5,7 @@ export default {
     return Vue.axios.post("/auth/login/", { username, password });
   },
   async logout() {
-    return Vue.axios.post("/auth/logout");
+    return Vue.axios.post("/auth/logout/");
   },
   async register(data) {
     return Vue.axios.post("auth/register/", data);
