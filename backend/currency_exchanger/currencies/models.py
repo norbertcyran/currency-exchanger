@@ -16,6 +16,9 @@ class CurrencyHistory(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     rate = models.DecimalField(decimal_places=2, max_digits=10)
 
+    class Meta:
+        ordering = ["-timestamp"]
+
 
 class WalletCurrency(models.Model):
     wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE)
