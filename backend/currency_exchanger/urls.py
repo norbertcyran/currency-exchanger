@@ -15,12 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from .users.api import router
+from rest_framework.routers import DefaultRouter
 
+from .currencies.views import CurrencyViewSet
+from .users.views import UserViewSet
+
+router = DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'currencies', CurrencyViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include(router.urls)),
-    path('auth/', include('dj_rest_auth.urls')),
-    path('auth/register/', include("dj_rest_auth.registration.urls")),
+    path('api/', include(router.urls)),
+    path('api/auth/', include('dj_rest_auth.urls')),
+    path('api/auth/register/', include("dj_rest_auth.registration.urls")),
 ]
