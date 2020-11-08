@@ -8,6 +8,6 @@ export default {
     return Vue.axios.post("/auth/logout");
   },
   async register(data) {
-    return Vue.axios.post("auth/register/", data);
+    return Vue.axios.post("/auth/register/", data);
   }
 };
