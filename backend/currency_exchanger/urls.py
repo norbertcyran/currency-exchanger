@@ -18,11 +18,13 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from .currencies.views import CurrencyViewSet
+from .stocks.views import StockViewSet
 from .users.views import UserViewSet
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'currencies', CurrencyViewSet)
+router.register(r'stocks', StockViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
