@@ -47,7 +47,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 
+    'currency_exchanger.currencies',
+    'currency_exchanger.stocks',
+    'currency_exchanger.transfers',
     'currency_exchanger.users',
+    'currency_exchanger.wallets',
 ]
 
 MIDDLEWARE = [
