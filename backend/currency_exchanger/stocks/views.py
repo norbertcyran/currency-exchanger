@@ -1,5 +1,5 @@
 from currency_exchanger.stocks.models import Stock, StockHistory
-from currency_exchanger.stocks.serializers import StockSerializer, StockHistorySerializer
+from currency_exchanger.stocks.serializers import StockHistorySerializer, StockSerializer
 from currency_exchanger.views import HistoricalModelViewSet
 
 

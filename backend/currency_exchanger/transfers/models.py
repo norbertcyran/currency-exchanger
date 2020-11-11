@@ -1,13 +1,10 @@
-from django.db import models
-
 from currency_exchanger.currencies.models import Currency
 from currency_exchanger.wallets.models import Wallet
+from django.db import models
 
 
 class MoneyTransfer(models.Model):
-    wallet_from = models.ForeignKey(
-        Wallet, on_delete=models.CASCADE, related_name="sent_transfers"
-    )
+    wallet_from = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name="sent_transfers")
     wallet_to = models.ForeignKey(
         Wallet, on_delete=models.CASCADE, related_name="received_transfers"
     )
