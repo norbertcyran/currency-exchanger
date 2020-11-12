@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from currency_exchanger.currencies.models import Currency, CurrencyHistory, WalletCurrency
+from rest_framework import serializers
 
 
 class CurrencySerializer(serializers.ModelSerializer):

@@ -1,8 +1,7 @@
 import pytest
+from currency_exchanger.users.models import User
 from model_bakery import baker
 from rest_framework.test import APIClient
-
-from currency_exchanger.users.models import User
 
 
 @pytest.fixture
@@ -24,4 +23,5 @@ def create_user(db):
             password=password,
             **kwargs,
         )
+
     return _create_user

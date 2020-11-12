@@ -1,8 +1,5 @@
 from currency_exchanger.currencies.models import Currency, CurrencyHistory
-from currency_exchanger.currencies.serializers import (
-    CurrencySerializer,
-    CurrencyHistorySerializer,
-)
+from currency_exchanger.currencies.serializers import CurrencyHistorySerializer, CurrencySerializer
 from currency_exchanger.views import HistoricalModelViewSet
 
 

@@ -11,3 +11,13 @@ Web application for currency exchanges, money transfers and stock trading. Acade
 ### Frontend
 1. Make sure yarn is installed
 2. Run `yarn install`
+
+#### Pre-commit hooks
+To run linters and formatters before each commit, run:
+```shell script
+pre-commit install
+```
+To run linters and formatters for all files, run:
+```shell script
+pre-commit run --all
+```

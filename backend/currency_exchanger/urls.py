@@ -23,14 +23,14 @@ from .users.views import UserViewSet
 from .wallets.views import WalletView
 
 router = DefaultRouter()
-router.register(r'users', UserViewSet)
-router.register(r'currencies', CurrencyViewSet)
-router.register(r'stocks', StockViewSet)
+router.register(r"users", UserViewSet)
+router.register(r"currencies", CurrencyViewSet)
+router.register(r"stocks", StockViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('api/wallet/', WalletView.as_view(), name="retrieve_wallet"),
-    path('api/auth/', include('dj_rest_auth.urls')),
-    path('api/auth/register/', include("dj_rest_auth.registration.urls")),
+    path("admin/", admin.site.urls),
+    path("api/", include(router.urls)),
+    path("api/wallet/", WalletView.as_view(), name="retrieve_wallet"),
+    path("api/auth/", include("dj_rest_auth.urls")),
+    path("api/auth/register/", include("dj_rest_auth.registration.urls")),
 ]

@@ -2,6 +2,30 @@
 DJANGO_SETTINGS_MODULE = "currency_exchanger.settings"
 addopts = "--reuse-db"
 
+[tool.black]
+line-length = 100
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.tox
+  | \.hg
+  | \.venv
+  | \.mypy_cache
+  | _build
+  | build
+  | dist
+  | env
+  | migrations
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+src_paths = ["typeland", "tests"]
+skip = ["migrations"]
+
 [tool.poetry]
 name = "currency-exchanger"
 version = "0.1.0"

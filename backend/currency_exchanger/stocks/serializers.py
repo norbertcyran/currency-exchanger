@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from currency_exchanger.stocks.models import Stock, WalletStock
+from rest_framework import serializers
 
 
 class StockSerializer(serializers.ModelSerializer):
