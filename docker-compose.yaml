@@ -1,6 +1,7 @@
 version: "3"
 services:
   backend:
+    image: currency-exchanger-backend:latest
     build:
       context: backend
     volumes:
@@ -9,6 +10,8 @@ services:
     - 8000:8000
     env_file:
       - backend/.env.development
+    depends_on:
+      - postgres
   frontend:
     build:
       context: frontend
@@ -25,5 +28,19 @@ services:
     environment:
       POSTGRES_PASSWORD: localpass
       POSTGRES_DB: currency_exchanger
+  rabbitmq:
+    image: rabbitmq:3.8.9
+    ports:
+      - 5672:5672
+  celery-worker:
+    image: currency-exchanger-backend:latest
+    volumes:
+    - ./backend:/app
+    env_file:
+      - backend/.env.development
+    command: celery -A currency_exchanger worker -l INFO -B
+    depends_on:
+      - rabbitmq
+      - postgres
 volumes:
   postgres-data:

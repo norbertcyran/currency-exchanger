@@ -9,13 +9,17 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+import datetime
+import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 import dj_database_url
+from dotenv import find_dotenv, load_dotenv
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(find_dotenv())
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -148,3 +152,15 @@ REST_FRAMEWORK = {
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+CELERY_BROKER_URL = "amqp://guest@rabbitmq:5672/"
+CELERY_BEAT_SCHEDULE = {
+    "update-currency-rates": {
+        "task": "currency_exchanger.currencies.tasks.update_currency_rates_async",
+        "schedule": datetime.timedelta(hours=1),
+        "args": (),
+    }
+}
+
+FIXER_IO_BASE_URL = "http://data.fixer.io/api"
+FIXER_IO_API_KEY = os.getenv("FIXER_IO_API_KEY")
