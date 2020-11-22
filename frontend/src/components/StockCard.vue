@@ -2,7 +2,7 @@
   <v-card width="400px" class="mb-4">
     <v-card-title>
       <!-- {{ this.currency }} -->
-      {{this.label}} : {{this.ammount}}
+      {{this.label}} : {{this.amount}}
       <v-spacer></v-spacer>
 
       <v-btn icon @click="show = !show">
@@ -16,16 +16,23 @@
           <LineChart
             :chartData="this.arrPrices"
             :options="this.chartOptions"
-            :label="this.stocklabel"
+            :label="this.label"
+           
           />
         </div>
         <v-card-actions>
-          <v-btn color="green" dark>Buy
-          </v-btn>
+          <!-- <v-btn color="green" dark>Buy
+          </v-btn> -->
+          <BuyStocksModal 
+          :currentPrice="this.arrPrices[arrPrices.length-1].price"
+           :label="this.label"
+          />
           <v-spacer></v-spacer>
-          <v-btn color="light-green" dark type="submit"
-            >Sell
-          </v-btn>
+          <SellStocksModal 
+          :currentPrice="this.arrPrices[arrPrices.length-1].price"
+           :label="this.label"
+           :userStockAmmount="this.amount"
+          />
         </v-card-actions>
       </div>
     </v-expand-transition>
@@ -34,6 +41,8 @@
 
 <script>
 import LineChart from "../components/LineChart";
+import BuyStocksModal from "../components/BuyStocksModal";
+import SellStocksModal from "../components/SellStocksModal";
 export default {
   data: () => ({
      show: false,
@@ -46,7 +55,7 @@ export default {
     arrPrices: {
       type: Float64Array
     },
-    ammount:{
+    amount:{
       type: Number
     }
 
@@ -57,7 +66,10 @@ export default {
     }
   },
   components: {
-    LineChart
+    LineChart,
+    BuyStocksModal,
+    SellStocksModal,
+
   }
 };
 </script>

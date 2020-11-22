@@ -22,7 +22,7 @@
         <div v-if="this.selectedItem == 0"><WalletCurrency /></div>
         <div v-if="this.selectedItem == 1"><WalletStock  /></div>
         <div v-if="this.selectedItem == 2"><WalletCurrencyConversion /></div>
-        <div v-if="this.selectedItem == 3"><WalletStock /></div>
+        <div v-if="this.selectedItem == 3"><Transfer /></div>
       </v-row>
     </v-navigation-drawer>
   </v-card>
@@ -32,6 +32,7 @@
 import WalletCurrency from "./WalletCurrency";
 import WalletStock from "./WalletStock";
 import WalletCurrencyConversion from "./WalletCurrencyConversion";
+import Transfer from "./Transfer";
 export default {
   data: () => ({
     items: [
@@ -48,7 +49,8 @@ export default {
   components: {
     WalletCurrency,
     WalletStock,
-    WalletCurrencyConversion
+    WalletCurrencyConversion,
+    Transfer
   }
 };
 </script>

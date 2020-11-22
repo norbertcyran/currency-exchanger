@@ -3,7 +3,7 @@
     <v-card-title>
       {{ this.currency }}
     </v-card-title>
-    <v-card-text>Dostępne środki: {{ this.ammount }} {{shortcut}}
+    <v-card-text>Dostępne środki: {{ this.amount }} {{shortcut}}
                     <v-btn color="success" dark class="float-right" small>Cash-in
               <v-icon>mdi-chevron-up</v-icon>
             </v-btn>
@@ -21,7 +21,7 @@ export default {
     currency: {
       type: String
     },
-    ammount: {
+    amount: {
       type: Float64Array
     }
     
@@ -33,7 +33,6 @@ export default {
     },
   methods: {
     generateShrotcut(currency) {
-        console.log("ja")
       switch (currency) {
         case "zlotys":
           return "PLN";

@@ -28,22 +28,17 @@
                     v-on:change="onStockNameChange"
                   ></v-combobox>
                   <v-text-field
-                    ref="ammount"
-                    v-model="ammount"
-                    label="ammount"
+                    ref="amount"
+                    v-model="amount"
+                    label="amount"
                     placeholder="0"
                   ></v-text-field>
-                  <v-text v-if="ammount != 0">
+                  <v-text v-if="amount != 0">
                     Total cost: {{ totalPrice }}€
-                    <v-btn
-                      class="float-right"
-                      color="success"
-                      dark
-                      @click.native="register"
-                    >
-                      Buy stocks
-                      <v-icon>mdi-cash-usd-outline</v-icon>
-                    </v-btn>
+                                        <BuyStocksModal
+                      :currentPrice="this.arrPrices[arrPrices.length - 1].price"
+                      :label="this.stocklabel"
+                    />
                   </v-text>
                 </v-col>
               </v-row>
@@ -57,17 +52,19 @@
 </template>
 <script>
 import LineChart from "../components/LineChart";
+import BuyStocksModal from "../components/BuyStocksModal"
 import stocks from "../api/stocks";
 export default {
   name: "stockprices",
   stockNames: [],
   ischartloading: false,
   components: {
-    LineChart
+    LineChart,
+    BuyStocksModal,
   },
   data: () => ({
     loaded: true,
-    ammount: 0,
+    amount: 0,
     arrPrices: [
       {
         date: "13/12/2020",
@@ -78,7 +75,7 @@ export default {
         price: 12
       }
     ],
-    stocklabel: "Srock prices", //nie wyswietla sie v model z comboboxa
+    stocklabel: "Stock prices", 
     chartOptions: {
       responsive: true,
       maintainAspectRatio: false
@@ -90,7 +87,7 @@ export default {
   },
   methods: {
     onStockNameChange: function() {
-      this.ammount = 0;
+      this.amount = 0;
       this.getStockPrices();
     },
     async getStockPrices() {
@@ -113,7 +110,7 @@ export default {
   },
   computed: {
     totalPrice: function() {
-      return this.ammount * this.arrPrices[0].price;
+      return this.amount * this.arrPrices[0].price;
     }
   }
 };
