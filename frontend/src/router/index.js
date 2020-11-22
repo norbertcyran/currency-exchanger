@@ -5,10 +5,16 @@ import Signup from "@/views/Signup";
 import StockPrices from "@/views/StockPrices";
 import Wallet from "@/views/Wallet";
 import Profile from "@/views/Profile";
+import HomePage from "@/views/HomePage";
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/",
+    component: HomePage,
+    name: "Home"
+  },
   {
     path: "/login",
     component: Login,
