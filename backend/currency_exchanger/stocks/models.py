@@ -15,7 +15,12 @@ class Stock(models.Model):
 class WalletStock(models.Model):
     wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name="wallet")
     stocks = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name="stocks")
-    count = models.IntegerField()
+    count = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["wallet", "stock"], name="unique_wallet_stock")
+        ]
 
 
 class StockTransfer(models.Model):
