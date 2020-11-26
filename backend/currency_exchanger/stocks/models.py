@@ -19,7 +19,7 @@ class WalletStock(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["wallet", "stock"], name="unique_wallet_stock")
+            models.UniqueConstraint(fields=["wallet", "stocks"], name="unique_wallet_stock")
         ]
 
 
