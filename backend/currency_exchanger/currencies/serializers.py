@@ -2,6 +2,7 @@ from currency_exchanger.currencies.models import (
     Currency,
     CurrencyExchange,
     CurrencyHistory,
+    CurrencyTransfer,
     WalletCurrency,
 )
 from currency_exchanger.exceptions import NotEnoughFundsAPIException
@@ -55,3 +56,9 @@ class CurrencyExchangeSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Can't exchange two the same currencies.")
 
         return attrs
+
+
+class CurrencyTransferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CurrencyTransfer
+        fields = ("id", "currency", "amount")
