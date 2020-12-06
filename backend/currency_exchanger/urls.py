@@ -19,6 +19,7 @@ from rest_framework.routers import DefaultRouter
 
 from .currencies.views import CurrencyExchangeViewSet, CurrencyViewSet
 from .stocks.views import StockViewSet
+from .transfers.views import MoneyTransferViewSet
 from .users.views import UserViewSet
 from .wallets.views import WalletView
 
@@ -27,6 +28,7 @@ router.register(r"users", UserViewSet)
 router.register(r"currencies", CurrencyViewSet)
 router.register(r"exchange", CurrencyExchangeViewSet, basename="exchanges")
 router.register(r"stocks", StockViewSet)
+router.register(r"transfers", MoneyTransferViewSet, basename="transfers")
 
 urlpatterns = [
     path("admin/", admin.site.urls),

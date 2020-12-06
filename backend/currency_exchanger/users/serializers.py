@@ -42,8 +42,6 @@ class UserSerializer(serializers.ModelSerializer):
             "is_staff",
             "is_active",
             "date_joined",
-            "groups",
-            "user_permissions",
             "info",
         ]
         read_only_fields = [
@@ -51,7 +49,6 @@ class UserSerializer(serializers.ModelSerializer):
             "is_staff",
             "date_joined",
             "is_active",
-            "user_permissions",
             "last_login",
         ]
 
