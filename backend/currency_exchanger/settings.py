@@ -118,7 +118,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+REST_AUTH_REGISTER_SERIALIZERS = {
+    "REGISTER_SERIALIZER": "currency_exchanger.users.serializers.CustomRegisterSerializer"
+}
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
