@@ -13,9 +13,9 @@
       <v-card-text>
         <v-form>
           <v-text-field
-            name="recipent"
-            label="Transfer recipent "
-            v-model="recipent"
+            name="recipient"
+            label="Transfer recipient "
+            v-model="recipient"
             :rules="[rules.required, rules.email]"
           >
           </v-text-field>
@@ -33,12 +33,7 @@
             :rules="[rules.required]"
           >
           </v-text-field>
-          <v-text-field
-            name="title"
-            label="Title "
-            v-model="title"
-            :rules="[rules.required]"
-          >
+          <v-text-field name="title" label="Title " v-model="title">
           </v-text-field>
           <v-divider light></v-divider>
         </v-form>
@@ -57,7 +52,7 @@ import currenciesAPI from "../api/currencies";
 export default {
   data: () => ({
     value: "",
-    recipent: "",
+    recipient: "",
     snackbar: false,
     text: `I'm a multi-line snackbar.`,
     currenciesAndAmmount: [
