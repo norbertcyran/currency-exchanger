@@ -13,3 +13,4 @@ class MoneyTransfer(models.Model):
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE, related_name="+")
     amount = models.DecimalField(decimal_places=2, max_digits=12)
     timestamp = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=100, blank=True)
