@@ -10,8 +10,6 @@
           </v-toolbar>
           <v-card-text>
             <v-form>
-
-
               <v-text-field
                 prepend-icon="mdi-account"
                 name="login"
@@ -93,7 +91,6 @@
               >
               </v-text-field>
 
-
               <v-divider light></v-divider>
             </v-form>
           </v-card-text>
@@ -148,14 +145,11 @@ export default {
         last_name: this.last_name,
         phone: this.phone,
         billing_address: this.billing_address
-
       };
       this.$store
         .dispatch("register", data)
         .then(() => this.$router.push("/"))
         .catch(err => console.log(err));
-
-
     },
     valid() {
       return this.password === this.confirm_password;

@@ -1,4 +1,3 @@
-
 <template>
   <v-container>
     <v-layout align-center justify-center>
@@ -11,13 +10,14 @@
             <v-card-text>
               Recent Transactions
               <TransferCard
-                v-for="(el,index) in userTransfers" 
+                v-for="(el, index) in userTransfers"
                 :key="index"
-                :currency="el.currency" 
-                :amount="el.amount" 
+                :currency="el.currency"
+                :amount="el.amount"
                 :isOutgoing="el.isOutgoing"
                 :otherUser="el.otherUser"
-                :title="el.title"></TransferCard>
+                :title="el.title"
+              ></TransferCard>
             </v-card-text>
             <v-divider light></v-divider>
           </v-card>
@@ -37,19 +37,19 @@ export default {
         isOutgoing: true,
         amount: 41,
         otherUser: "gaws@gmail.com",
-        currency: "zlotys",
+        currency: "zlotys"
       },
-            {
+      {
         title: "money transfer2",
         isOutgoing: false,
         amount: 41,
         otherUser: "gaws@gmail.com",
-        currency: "zlotys",
-      },
-    ],
+        currency: "zlotys"
+      }
+    ]
   }),
   components: {
-    TransferCard,
-  },
+    TransferCard
+  }
 };
 </script>
