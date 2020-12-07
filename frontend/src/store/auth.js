@@ -27,19 +27,24 @@ const mutations = {
     state.status = "";
     state.token = "";
     state.user = {};
+  },
+  AUTH_SET_USER(state, user) {
+    state.status = "";
+    state.user = user;
   }
 };
 
 const actions = {
-  async login({ commit }, { username, password }) {
+  async login({ commit, dispatch }, { username, password }) {
     commit("AUTH_REQUEST");
     try {
       const response = await auth.login(username, password);
       const token = response.data.key;
       const user = response.data.user;
       localStorage.setItem("token", token);
-      Vue.axios.defaults.headers.common["Authorization"] = token;
+      Vue.axios.defaults.headers.common["Authorization"] = `Token ${token}`;
       commit("AUTH_SUCCESS", token, user);
+      dispatch("fetchWallet");
     } catch (err) {
       commit("AUTH_ERROR");
       localStorage.removeItem("token");
@@ -63,11 +68,22 @@ const actions = {
       const token = response.data.token;
       const user = response.data.user;
       localStorage.setItem("token", token);
-      Vue.axios.defaults.headers.common["Authorization"] = token;
+      Vue.axios.defaults.headers.common["Authorization"] = `Token ${token}`;
       commit("AUTH_SUCCESS", token, user);
     } catch (err) {
       commit("AUTH_ERROR", err);
       localStorage.removeItem("token");
+    }
+  },
+
+  async fetchUser({ commit }) {
+    commit("AUTH_REQUEST");
+    try {
+      const response = await auth.fetchUser();
+      const user = response.data;
+      commit("AUTH_SET_USER", user);
+    } catch (err) {
+      commit("AUTH_ERROR", err);
     }
   }
 };

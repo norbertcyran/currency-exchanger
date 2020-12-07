@@ -24,13 +24,13 @@
       </router-link>
 
       <v-spacer></v-spacer>
-            <v-btn text to="/stockprices">
+      <v-btn text to="/stockprices">
         <span class="mr-2">Stock prices</span>
       </v-btn>
       <v-btn text to="/wallet">
         <span class="mr-2">Wallet</span>
       </v-btn>
-            <v-btn text to="/profile">
+      <v-btn text to="/profile">
         <span class="mr-2">Profile</span>
       </v-btn>
       <v-btn v-if="isAuthenticated" @click="logout()" text>
@@ -63,7 +63,21 @@ export default {
   },
 
   methods: {
-    ...mapActions(["logout"])
+    ...mapActions(["logout", "fetchUser", "fetchWallet"])
+  },
+
+  async created() {
+    if (this.isAuthenticated) {
+      await this.fetchUser();
+      await this.fetchWallet();
+    }
+    this.walletInterval = window.setInterval(async () => {
+      if (this.isAuthenticated) await this.fetchWallet();
+    }, 60 * 1000);
+  },
+
+  beforeDestroy() {
+    clearInterval(this.walletInterval);
   }
 };
 </script>

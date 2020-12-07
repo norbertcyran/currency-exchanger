@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "corsheaders",
+    "django_extensions",
     "dj_rest_auth",
     "dj_rest_auth.registration",
     "rest_framework",
@@ -118,8 +119,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_AUTH_SERIALIZERS = {
+    "USER_DETAILS_SERIALIZER": "currency_exchanger.users.serializers.UserSerializer",
+}
+
 REST_AUTH_REGISTER_SERIALIZERS = {
-    "REGISTER_SERIALIZER": "currency_exchanger.users.serializers.CustomRegisterSerializer"
+    "REGISTER_SERIALIZER": "currency_exchanger.users.serializers.CustomRegisterSerializer",
 }
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
