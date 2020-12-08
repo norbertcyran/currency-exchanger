@@ -62,3 +62,6 @@ class CurrencyTransferSerializer(serializers.ModelSerializer):
     class Meta:
         model = CurrencyTransfer
         fields = ("id", "currency", "amount")
+
+    def validate(self, attrs):
+        return attrs

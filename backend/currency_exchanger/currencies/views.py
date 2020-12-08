@@ -1,4 +1,9 @@
-from currency_exchanger.currencies.models import Currency, CurrencyExchange, CurrencyHistory
+from currency_exchanger.currencies.models import (
+    Currency,
+    CurrencyExchange,
+    CurrencyHistory,
+    CurrencyTransfer,
+)
 from currency_exchanger.currencies.serializers import (
     CurrencyExchangeSerializer,
     CurrencyHistorySerializer,
@@ -30,7 +35,7 @@ class CurrencyTransferViewSet(ModelViewSet):
     serializer_class = CurrencyTransferSerializer
 
     def get_queryset(self):
-        return CurrencyExchange.objects.filter(wallet__user=self.request.user)
+        return CurrencyTransfer.objects.filter(wallet__user=self.request.user)
 
     def perform_create(self, serializer):
         return serializer.save(wallet=self.request.user.wallet)
