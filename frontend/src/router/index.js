@@ -39,7 +39,7 @@ const routes = [
     path: "/profile",
     component: Profile,
     name: "Profile"
-  },
+  }
 ];
 
 const router = new VueRouter({

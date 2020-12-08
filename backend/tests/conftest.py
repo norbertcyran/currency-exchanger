@@ -36,3 +36,10 @@ def currencies(db):
         baker.make(Currency, code="PLN", rate=Decimal(4.50)),
         baker.make(Currency, code="EUR", rate=1),
     ]
+
+
+@pytest.fixture
+def wallet(user, currencies):
+    baker.make("WalletCurrency", wallet=user.wallet, currency=currencies[0], amount=100)
+    baker.make("WalletCurrency", wallet=user.wallet, currency=currencies[1], amount=50)
+    return user.wallet

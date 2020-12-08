@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-4"> 
+  <div class="mt-4">
     <StockCard
       v-for="el in userStocks"
       :key="el.label"
@@ -22,13 +22,13 @@ export default {
         arrPrices: [
           {
             date: "13/12/2020",
-            price: 18,
+            price: 18
           },
           {
             date: "12/12/2020",
-            price: 12,
-          },
-        ],
+            price: 12
+          }
+        ]
       },
       {
         label: "cos2",
@@ -36,19 +36,19 @@ export default {
         arrPrices: [
           {
             date: "13/12/2020",
-            price: 18,
+            price: 18
           },
           {
             date: "12/12/2020",
-            price: 22,
-          },
-        ],
-      },
+            price: 22
+          }
+        ]
+      }
     ],
     chartOptions: {
       responsive: true,
-      maintainAspectRatio: false,
-    },
+      maintainAspectRatio: false
+    }
   }),
   methods: {
     async getUserStocks() {
@@ -58,13 +58,13 @@ export default {
       } catch (err) {
         console.log(err);
       }
-    },
+    }
   },
   created() {
     this.getUserStocks();
   },
   components: {
-    StockCard,
-  },
+    StockCard
+  }
 };
 </script>

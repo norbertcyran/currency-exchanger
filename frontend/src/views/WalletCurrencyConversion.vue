@@ -1,5 +1,5 @@
 <template>
-  <v-card width="400px"  class="mt-4" display="block">
+  <v-card width="400px" class="mt-4" display="block">
     <v-toolbar-title>
       <!-- <h4>rate: {{this.exchangeRate}}</h4> -->
     </v-toolbar-title>
@@ -60,12 +60,12 @@ export default {
     currenciesAndAmmount: [
       {
         currency: "zloty",
-        amount: 24,
+        amount: 24
       },
       {
         currency: "dollar",
-        amount: 30,
-      },
+        amount: 30
+      }
     ],
     allCurrencies: ["dollar", "zloty", "euro", "yen"],
     exchangeRate: 3.65,
@@ -76,22 +76,22 @@ export default {
 
     rules: {
       //   limitAmmount:  value => value <= this.maxAmmount || "you cannot exceed your limit",
-      required: (value) => !!value || "Required.",
-    },
+      required: value => !!value || "Required."
+    }
   }),
   computed: {
-    userCurrencies: function () {
-      var res = this.currenciesAndAmmount.map((cur) => cur.currency);
+    userCurrencies: function() {
+      var res = this.currenciesAndAmmount.map(cur => cur.currency);
       return res;
     },
-    maxAmmount: function () {
+    maxAmmount: function() {
       for (var i = 0; i < this.currenciesAndAmmount.length; i++) {
         if (this.currenciesAndAmmount[i].currency === this.fromCurrency) {
           return this.currenciesAndAmmount[i].amount;
         }
       }
       return 0;
-    },
+    }
   },
   methods: {
     updateNewCurrencyAmmount() {
@@ -116,7 +116,7 @@ export default {
         } catch (err) {
           console.log(err);
         }
-    },
-  },
+    }
+  }
 };
 </script>

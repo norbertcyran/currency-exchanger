@@ -18,8 +18,7 @@ export default {
       { currency: "zlotys", amount: 20.2 }
     ]
   }),
-    methods: {
-      
+  methods: {
     async getUserCurrencies() {
       try {
         const response = await currenciesAPI.getUserCurrencies();
@@ -27,11 +26,10 @@ export default {
       } catch (err) {
         console.log(err);
       }
-    },
-
+    }
   },
-  created(){
-    this.getUserCurrencies()
+  created() {
+    this.getUserCurrencies();
   },
   components: {
     SmallCard

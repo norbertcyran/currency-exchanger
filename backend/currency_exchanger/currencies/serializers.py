@@ -24,13 +24,11 @@ class CurrencyHistorySerializer(serializers.ModelSerializer):
 
 
 class WalletCurrencySerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField(source="currency.id")
-    code = serializers.ReadOnlyField(source="currency.code")
-    rate = serializers.ReadOnlyField(source="currency.rate")
+    currency = serializers.SlugRelatedField(slug_field="code", read_only=True)
 
     class Meta:
         model = WalletCurrency
-        fields = ("id", "code", "rate", "amount")
+        fields = ("currency", "amount")
 
 
 class CurrencyExchangeSerializer(serializers.ModelSerializer):

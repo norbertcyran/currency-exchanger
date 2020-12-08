@@ -10,8 +10,6 @@
           </v-toolbar>
           <v-card-text>
             <v-form>
-
-
               <v-text-field
                 prepend-icon="mdi-account"
                 name="login"
@@ -52,6 +50,47 @@
               >
               </v-text-field>
 
+              <v-text-field
+                name="first_name"
+                label="First Name"
+                :rules="[rules.required]"
+                type="name"
+                :error="!valid()"
+                v-model="first_name"
+              >
+              </v-text-field>
+
+              <v-text-field
+                name="last_name"
+                label="Lastname"
+                :rules="[rules.required]"
+                type="lastname"
+                :error="!valid()"
+                v-model="last_name"
+              >
+              </v-text-field>
+
+              <v-text-field
+                prepend-icon="mdi-phone"
+                name="phone"
+                label="Phone number"
+                :rules="[rules.required]"
+                type="phone"
+                :error="!valid()"
+                v-model="phone"
+              >
+              </v-text-field>
+
+              <v-text-field
+                name="billing_address"
+                label="Billing address"
+                :rules="[rules.required]"
+                type="address"
+                :error="!valid()"
+                v-model="billing_address"
+              >
+              </v-text-field>
+
               <v-divider light></v-divider>
             </v-form>
           </v-card-text>
@@ -76,6 +115,10 @@ export default {
     confirm_password: "",
     nick: "",
     email: "",
+    first_name: "",
+    last_name: "",
+    phone: "",
+    billing_address: "",
 
     rules: {
       required: value => !!value || "Required",
@@ -94,9 +137,14 @@ export default {
   methods: {
     register() {
       let data = {
-        nick: this.nick,
+        username: this.nick,
         email: this.email,
-        password: this.password
+        password1: this.password,
+        password2: this.confirm_password,
+        first_name: this.first_name,
+        last_name: this.last_name,
+        phone: this.phone,
+        billing_address: this.billing_address
       };
       this.$store
         .dispatch("register", data)
