@@ -1,4 +1,4 @@
-from currency_exchanger.stocks.models import Stock, WalletStock
+from currency_exchanger.stocks.models import Stock, WalletStock,StockHistory
 from rest_framework import serializers
 
 
@@ -14,7 +14,7 @@ class StockHistorySerializer(serializers.ModelSerializer):
     stock = serializers.StringRelatedField()
 
     class Meta:
-        model = Stock
+        model = StockHistory
         fields = ("id", "stock", "price", "timestamp")
 
 
