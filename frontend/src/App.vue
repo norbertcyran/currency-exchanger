@@ -29,12 +29,13 @@
       <v-btn text to="/wallet">
         <span class="mr-2">Wallet</span>
       </v-btn>
-            <v-btn text to="/profile">
+      <v-btn text to="/profile">
         <span class="mr-2">Profile</span>
       </v-btn>
-      <v-btn to="/login" text>
+      <v-btn v-if="isAuthenticated" @click="logout()" text>
         <span class="mr-2">Logout</span>
       </v-btn>
+
     </v-app-bar>
 
     <v-main>
@@ -51,5 +52,28 @@ export default {
   data: () => ({
     //
   }),
+
+
+  computed: {
+    ...mapGetters(["isAuthenticated"])
+  },
+
+  methods: {
+    ...mapActions(["logout", "fetchUser", "fetchWallet"])
+  },
+
+  async created() {
+    if (this.isAuthenticated) {
+      await this.fetchUser();
+      await this.fetchWallet();
+    }
+    this.walletInterval = window.setInterval(async () => {
+      if (this.isAuthenticated) await this.fetchWallet();
+    }, 60 * 1000);
+  },
+
+  beforeDestroy() {
+    clearInterval(this.walletInterval);
+  }
 };
 </script>

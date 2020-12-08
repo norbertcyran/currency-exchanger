@@ -29,6 +29,7 @@ export default {
             price: 12,
           },
         ],
+
       },
       {
         label: "cos2",
@@ -36,6 +37,7 @@ export default {
         arrPrices: [
           {
             date: "13/12/2020",
+
             price: 18,
           },
           {
@@ -49,6 +51,7 @@ export default {
       responsive: true,
       maintainAspectRatio: false,
     },
+
   }),
   methods: {
     async getUserStocks() {
@@ -59,12 +62,14 @@ export default {
         console.log(err);
       }
     },
+
   },
   created() {
     this.getUserStocks();
   },
   components: {
-    StockCard,
-  },
+
+    StockCard
+  }
 };
 </script>

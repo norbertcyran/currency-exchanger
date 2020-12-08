@@ -3,8 +3,9 @@ from django.db import models
 
 
 class Currency(models.Model):
-    code = models.CharField(max_length=3)
-    country = models.CharField(max_length=255)
+    code = models.CharField(max_length=3, unique=True)
+    country = models.CharField(max_length=255, blank=True)
+    name = models.CharField(max_length=255, blank=True)
     rate = models.DecimalField(decimal_places=2, max_digits=10)
 
     def __str__(self):
@@ -23,7 +24,12 @@ class CurrencyHistory(models.Model):
 class WalletCurrency(models.Model):
     wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE)
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
-    amount = models.DecimalField(decimal_places=2, max_digits=12)
+    amount = models.DecimalField(decimal_places=2, max_digits=12, default=0)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["wallet", "currency"], name="unique_wallet_currency")
+        ]
 
 
 class CurrencyExchange(models.Model):

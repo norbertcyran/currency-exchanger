@@ -1,4 +1,3 @@
-
 <template>
   <v-container>
     <v-layout align-center justify-center>
@@ -19,6 +18,7 @@
                 :otherUser="el.otherUser"
                 :title="el.title"
               ></TransferCard>
+
               <CurrencyExchangeCard
                 v-for="(el, index) in userCurrencyExchanges"
                 :key="index"
@@ -37,6 +37,7 @@
                 :stockAmount="el.stockAmount"
                 :time="el.time"
               ></StockCard>
+
             </v-card-text>
             <v-divider light></v-divider>
           </v-card>
@@ -49,6 +50,7 @@
 import TransferCard from "../components/ProfileTransactions/TransferCard";
 import CurrencyExchangeCard from "../components/ProfileTransactions/CurrencyExchangeCard";
 import StockCard from "../components/ProfileTransactions/StockCard";
+
 export default {
   data: () => ({
     recentTransactions: [],
@@ -59,12 +61,14 @@ export default {
         amount: 41,
         otherUser: "gaws@gmail.com",
         currency: "zloty",
+
       },
       {
         title: "money transfer2",
         isOutgoing: false,
         amount: 41,
         otherUser: "gaws@gmail.com",
+
         currency: "zloty",
       },
     ],
@@ -92,5 +96,6 @@ export default {
     CurrencyExchangeCard,
     StockCard,
   },
+
 };
 </script>

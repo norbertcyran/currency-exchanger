@@ -9,13 +9,17 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+import datetime
+import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 import dj_database_url
+from dotenv import find_dotenv, load_dotenv
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(find_dotenv())
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -43,6 +47,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "corsheaders",
+    "django_extensions",
     "dj_rest_auth",
     "dj_rest_auth.registration",
     "rest_framework",
@@ -114,7 +119,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_AUTH_SERIALIZERS = {
+    "USER_DETAILS_SERIALIZER": "currency_exchanger.users.serializers.UserSerializer",
+}
 
+REST_AUTH_REGISTER_SERIALIZERS = {
+    "REGISTER_SERIALIZER": "currency_exchanger.users.serializers.CustomRegisterSerializer",
+}
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -148,3 +159,15 @@ REST_FRAMEWORK = {
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+CELERY_BROKER_URL = "amqp://guest@rabbitmq:5672/"
+CELERY_BEAT_SCHEDULE = {
+    "update-currency-rates": {
+        "task": "currency_exchanger.currencies.tasks.update_currency_rates_async",
+        "schedule": datetime.timedelta(hours=1),
+        "args": (),
+    }
+}
+
+FIXER_IO_BASE_URL = "http://data.fixer.io/api"
+FIXER_IO_API_KEY = os.getenv("FIXER_IO_API_KEY")

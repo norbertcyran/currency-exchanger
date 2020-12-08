@@ -9,7 +9,7 @@ import axios from "axios";
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 const token = localStorage.getItem("token");
 if (token) {
-  axios.defaults.headers.common["Authorization"] = token;
+  axios.defaults.headers.common["Authorization"] = `Token ${token}`;
 }
 Vue.use(VueAxios, axios);
 

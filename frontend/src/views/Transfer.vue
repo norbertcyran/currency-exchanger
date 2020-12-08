@@ -2,7 +2,8 @@
   <div>
     <v-card width="400px" class="mt-4">
       <v-snackbar absolute top v-model="snackbar">
-      You have exceeded your payment resources
+
+        You have exceeded your payment resources
 
         <template v-slot:action="{ attrs }">
           <v-btn color="red" text v-bind="attrs" @click="snackbar = false">
@@ -63,22 +64,24 @@ export default {
     currenciesAndAmmount: [
       {
         currency: "zloty",
-        amount: 24,
+
+        amount: 24
       },
       {
         currency: "dollar",
-        amount: 30,
-      },
+        amount: 30
+      }
     ],
     title: "",
     amount: 0,
     rules: {
-      required: (value) => !!value || "Required",
-      email: (value) => {
+
+      required: value => !!value || "Required",
+      email: value => {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(value) || "Invalid e-mail.";
-      },
-    },
+      }
+    }
   }),
 
   components: {},
@@ -93,8 +96,9 @@ export default {
     },
     checkAmmount() {
       var amomountAvailable = this.value.split(" ")[1];
-      amomountAvailable=amomountAvailable.substring(1)
-      amomountAvailable=amomountAvailable.slice(0,-1)
+      amomountAvailable = amomountAvailable.substring(1);
+      amomountAvailable = amomountAvailable.slice(0, -1);
+
 
       if (this.amount > amomountAvailable) {
         this.snackbar = true;
@@ -114,3 +118,20 @@ export default {
   },
 };
 </script>
+=======
+    }
+  },
+  computed: {
+    userCurrenciesAndAmmount: function() {
+      var res = this.currenciesAndAmmount.map(
+        cur => cur.currency + " (" + cur.amount + ")"
+      );
+      return res;
+    }
+  },
+  created() {
+    this.getUserCurrencies();
+  }
+};
+</script>
+
