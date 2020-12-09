@@ -20,8 +20,7 @@
         </v-navigation-drawer>
 
         <div v-if="this.selectedItem == 0"><WalletCurrency /></div>
-
-        <div v-if="this.selectedItem == 1"><WalletStock /></div>
+        <div v-if="this.selectedItem == 1"><WalletStock  /></div>
         <div v-if="this.selectedItem == 2"><WalletCurrencyConversion /></div>
         <div v-if="this.selectedItem == 3"><Transfer /></div>
       </v-row>
@@ -42,8 +41,9 @@ export default {
       ["mdi-currency-usd", "Currency conversion"],
       ["mdi-cash-multiple", "Transfer"]
     ],
+    selectedItem: 0,
 
-    selectedItem: 0
+
   }),
 
   components: {
@@ -54,4 +54,3 @@ export default {
   }
 };
 </script>
-

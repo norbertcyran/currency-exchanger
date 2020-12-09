@@ -6,9 +6,6 @@ import StockPrices from "@/views/StockPrices";
 import Wallet from "@/views/Wallet";
 import Profile from "@/views/Profile";
 
-import HomePage from "@/views/HomePage";
-
-
 Vue.use(VueRouter);
 
 const routes = [
@@ -36,8 +33,7 @@ const routes = [
     path: "/profile",
     component: Profile,
     name: "Profile"
-
-  }
+  },
 ];
 
 const router = new VueRouter({

@@ -1,8 +1,7 @@
 <template>
-
-  <v-card width="400px" class="mt-4" display="block">
+  <v-card width="400px"  class="mt-4" display="block">
     <v-toolbar-title>
-      <!-- <h4>rate: {{this.exchangeRate}}</h4> -->
+
     </v-toolbar-title>
     <v-container>
       <v-row>
@@ -67,7 +66,6 @@ export default {
         currency: "dollar",
         amount: 30,
       },
-
     ],
     allCurrencies: ["dollar", "zloty", "euro", "yen"],
     exchangeRate: 3.65,
@@ -87,7 +85,6 @@ export default {
       return res;
     },
     maxAmmount: function () {
-
       for (var i = 0; i < this.currenciesAndAmmount.length; i++) {
         if (this.currenciesAndAmmount[i].currency === this.fromCurrency) {
           return this.currenciesAndAmmount[i].amount;
@@ -95,7 +92,6 @@ export default {
       }
       return 0;
     },
-
   },
   methods: {
     updateNewCurrencyAmmount() {
@@ -124,4 +120,3 @@ export default {
   },
 };
 </script>
-

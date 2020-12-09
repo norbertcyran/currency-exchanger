@@ -1,3 +1,4 @@
+
 <template>
   <v-container fill-height>
     <v-layout align-center justify-center>
@@ -34,9 +35,7 @@
                   ></v-text-field>
                   <v-text v-if="amount != 0">
                     Total cost: {{ totalPrice }}€
-
-                    <BuyStocksModal
-
+                                        <BuyStocksModal
                       :currentPrice="this.arrPrices[arrPrices.length - 1].price"
                       :label="this.stocklabel"
                     />
@@ -53,8 +52,7 @@
 </template>
 <script>
 import LineChart from "../components/LineChart";
-
-import BuyStocksModal from "../components/BuyStocksModal";
+import BuyStocksModal from "../components/BuyStocksModal"
 import stocks from "../api/stocks";
 export default {
   name: "stockprices",
@@ -62,8 +60,7 @@ export default {
   ischartloading: false,
   components: {
     LineChart,
-
-    BuyStocksModal
+    BuyStocksModal,
   },
   data: () => ({
     loaded: true,
@@ -78,8 +75,7 @@ export default {
         price: 12
       }
     ],
-
-    stocklabel: "Stock prices",
+    stocklabel: "Stock prices", 
     chartOptions: {
       responsive: true,
       maintainAspectRatio: false

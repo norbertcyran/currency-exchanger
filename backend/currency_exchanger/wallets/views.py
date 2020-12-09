@@ -10,5 +10,5 @@ class WalletView(APIView):
 
     def get(self, request):
         wallet = Wallet.objects.get(user=self.request.user)
-        serializer = WalletSerializer(instance=wallet)
+        serializer = WalletSerializer(wallet)
         return Response(serializer.data)

@@ -9,7 +9,7 @@ def test_login(api_client, create_user):
         password="test",
     )
 
-    rsp = api_client.post("/api/auth/login/", data={"username": "test", "password": "test"})
+    rsp = api_client.post("/auth/login/", data={"username": "test", "password": "test"})
 
     assert rsp.status_code == 200
     assert rsp.json()["key"] is not None
@@ -18,7 +18,7 @@ def test_login(api_client, create_user):
 @pytest.mark.django_db
 def test_registration(api_client):
     rsp = api_client.post(
-        "/api/auth/register/",
+        "/auth/register/",
         data={
             "username": "test",
             "email": "test@example.com",

@@ -30,19 +30,6 @@ and [docker-compose](https://docs.docker.com/compose/install/)
     docker-compose exec backend python manage.py migrate
     ```
 
-#### Fixer.io API
-To fetch currency rates every hour from Fixer.io API,
-[create a free account](https://fixer.io/product). After you get your account,
-in the `backend` directory create `.env` file, inside provide your API key:
-```dotenv
-FIXER_IO_API_KEY=<your-api-key>
-```
-Now, restart the application and now currency rates will be fetched every hour.
-
-To fetch currency rates right away, use `python manage.py update_currency_rates`.
-
-**WARNING**: Do not commit your `.env` file.
-
 #### Pre-commit hooks
 To run linters and formatters before each commit, run:
 ```shell script

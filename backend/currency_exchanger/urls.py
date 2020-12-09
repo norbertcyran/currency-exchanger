@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .currencies.views import CurrencyExchangeViewSet, CurrencyViewSet
+from .currencies.views import CurrencyViewSet
 from .stocks.views import StockViewSet
 from .users.views import UserViewSet
 from .wallets.views import WalletView
@@ -25,7 +25,6 @@ from .wallets.views import WalletView
 router = DefaultRouter()
 router.register(r"users", UserViewSet)
 router.register(r"currencies", CurrencyViewSet)
-router.register(r"exchange", CurrencyExchangeViewSet, basename="exchanges")
 router.register(r"stocks", StockViewSet)
 
 urlpatterns = [

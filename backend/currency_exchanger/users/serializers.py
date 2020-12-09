@@ -1,23 +1,6 @@
-from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
 
 from .models import User, UserInfo
-
-
-class CustomRegisterSerializer(RegisterSerializer):
-    first_name = serializers.CharField(required=True, write_only=True)
-    last_name = serializers.CharField(required=True, write_only=True)
-    billing_address = serializers.CharField(required=True, write_only=True)
-    phone = serializers.CharField(required=True, write_only=True)
-
-    def custom_signup(self, validated_data, user):
-        profile = UserInfo.objects.create(user=user)
-        user.first_name = self.validated_data.get("first_name", "")
-        user.last_name = self.validated_data.get("last_name", "")
-        profile.billing_address = self.validated_data.get("billing_address", "")
-        profile.phone = self.validated_data.get("phone", "")
-        profile.save()
-        user.save()
 
 
 class UserInfoSerializer(serializers.ModelSerializer):
@@ -33,6 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             "id",
+            "password",
             "last_login",
             "is_superuser",
             "username",
