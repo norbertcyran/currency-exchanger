@@ -24,6 +24,15 @@
       </router-link>
 
       <v-spacer></v-spacer>
+            <v-btn text to="/stockprices">
+        <span class="mr-2">Stock prices</span>
+      </v-btn>
+      <v-btn text to="/wallet">
+        <span class="mr-2">Wallet</span>
+      </v-btn>
+            <v-btn text to="/profile">
+        <span class="mr-2">Profile</span>
+      </v-btn>
       <v-btn v-if="isAuthenticated" @click="logout()" text>
         <span class="mr-2">Logout</span>
       </v-btn>
