@@ -10,7 +10,7 @@
 </template>
 <script>
 import SmallCard from "../components/SmallCard";
-import currenciesAPI from "../api/currencies";
+import walletAPI from "../api/wallet";
 export default {
   data: () => ({
     currencies: [
@@ -21,8 +21,10 @@ export default {
   methods: {
     async getUserCurrencies() {
       try {
-        const response = await currenciesAPI.getUserCurrencies();
-        this.arrCurrencies = response.data.currencies;
+        const response = await walletAPI.getWallet();
+        this.currencies = response.data.currencies;
+
+
       } catch (err) {
         console.log(err);
       }
