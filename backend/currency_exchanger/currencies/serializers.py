@@ -52,6 +52,10 @@ class CurrencyExchangeSerializer(serializers.ModelSerializer):
 
 
 class CurrencyTransferSerializer(serializers.ModelSerializer):
+    currency = serializers.SlugRelatedField(
+        many=False, slug_field="code", queryset=Currency.objects.all()
+    )
+
     class Meta:
         model = CurrencyTransfer
         fields = ("id", "currency", "amount")

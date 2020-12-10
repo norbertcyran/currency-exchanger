@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" v-on="on" class="m-12"> 
+        <v-btn color="primary" dark v-bind="attrs" v-on="on" class="m-12">
            Cash-in
             </v-btn>
       </template>
@@ -25,7 +25,7 @@
           <v-btn color="blue darken-1" text @click="dialog = false">
             Close
           </v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">
+          <v-btn color="blue darken-1" text @click="addMoney();dialog = false">
             Add
           </v-btn>
         </v-card-actions>
@@ -34,6 +34,8 @@
   </v-row>
 </template>
 <script>
+import Vue from "vue";
+
 export default {
   data: () => ({
     dialog: false,
@@ -45,7 +47,13 @@ export default {
     },
   },
   methods:{
-      addMoney(){}
+      addMoney(){
+          let data ={
+            currency: this.currency,
+            amount: this.amount,
+          }
+          return Vue.axios.post("cashin/", data);
+      }
   }
 
 };

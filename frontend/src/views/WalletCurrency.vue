@@ -11,7 +11,12 @@
 <script>
 import SmallCard from "../components/SmallCard";
 import walletAPI from "../api/wallet";
+
+
+
+
 export default {
+
   data: () => ({
     currencies: [
       { currency: "dollar", amount: 300.23 },
@@ -30,6 +35,9 @@ export default {
       }
     }
   },
+
+
+
   created() {
     this.getUserCurrencies();
   },
