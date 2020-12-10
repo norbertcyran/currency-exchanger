@@ -53,6 +53,6 @@ export default {
      return currenciesAndShortcuts.find(element => element.currency == currency).shortcut
       }
     },
-  },
+  
 };
 </script>

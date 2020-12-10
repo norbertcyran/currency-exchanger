@@ -45,6 +45,7 @@ export default {
     shortcut: function () {
       return this.getShortcut(this.currency);
     },
+    
   },
     methods: {
       getShortcut(currency){
