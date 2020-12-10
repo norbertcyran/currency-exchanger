@@ -5,7 +5,9 @@ const state = () => ({
   status: ""
 });
 
-const getters = {};
+const getters = {
+  wallet: state => state.wallet
+};
 
 const mutations = {
   WALLET_REQUEST(state) {

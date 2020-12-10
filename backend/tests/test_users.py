@@ -22,6 +22,10 @@ def test_registration(api_client):
         data={
             "username": "test",
             "email": "test@example.com",
+            "first_name": "Test",
+            "last_name": "Testing",
+            "billing_address": "Testing St. 1",
+            "phone": "+48123456789",
             "password1": "hardpassword1234",
             "password2": "hardpassword1234",
         },

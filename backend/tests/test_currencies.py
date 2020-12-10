@@ -91,3 +91,9 @@ def test_currency_exchange_same_currency(api_client, user, currencies):
 
     assert rsp.status_code == 400
     assert rsp_json["non_field_errors"] == ["Can't exchange two the same currencies."]
+
+
+def test_currency_exchange_not_authenticated(api_client):
+    rsp = api_client.post("/api/exchange/")
+
+    assert rsp.status_code == 401

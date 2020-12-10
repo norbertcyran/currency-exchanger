@@ -1,11 +1,22 @@
 <template>
   <div>
     <v-card width="400px" class="mt-4">
-      <v-snackbar absolute top v-model="snackbar">
-        You have exceeded your payment resources
+      <v-snackbar
+        :timeout="3000"
+        v-model="snackbar.visible"
+        :color="snackbar.success ? 'success' : 'error'"
+        outlined
+        top
+      >
+        {{ snackbar.text }}
 
         <template v-slot:action="{ attrs }">
-          <v-btn color="red" text v-bind="attrs" @click="snackbar = false">
+          <v-btn
+            :color="snackbar.success ? 'success' : 'error'"
+            text
+            v-bind="attrs"
+            @click="snackbar.visible = false"
+          >
             Close
           </v-btn>
         </template>
@@ -13,39 +24,35 @@
       <v-card-text>
         <v-form>
           <v-text-field
-            name="recipent"
-            label="Transfer recipent "
-            v-model="recipent"
-            :rules="[rules.required, rules.email]"
+            name="recipient"
+            label="Transfer recipient "
+            v-model="recipient"
+            :rules="[rules.required]"
           >
           </v-text-field>
 
           <v-select
-            :items="userCurrenciesAndAmmount"
+            v-model="selectedCurrency"
+            :items="wallet.currencies"
+            :item-value="item => item"
+            :item-text="item => `${item.currency} (${item.amount})`"
             label="Currency"
-            v-model="value"
           ></v-select>
           <v-text-field
+            v-model.number="amount"
             name="amount"
-            type="number"
-            label="Ammount "
-            v-model="amount"
-            :rules="[rules.required]"
+            label="Amount"
+            :rules="[rules.required, checkAmount]"
           >
           </v-text-field>
-          <v-text-field
-            name="title"
-            label="Title "
-            v-model="title"
-            :rules="[rules.required]"
-          >
+          <v-text-field name="title" label="Title " v-model="title">
           </v-text-field>
           <v-divider light></v-divider>
         </v-form>
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="success" dark @click="checkAmmount"
+        <v-btn color="success" small dark @click="sendTransfer"
           >Commit transfer
         </v-btn>
       </v-card-actions>
@@ -53,64 +60,69 @@
   </div>
 </template>
 <script>
-import currenciesAPI from "../api/currencies";
+import { mapGetters, mapActions } from "vuex";
+import transfers from "@/api/transfers";
+
 export default {
   data: () => ({
-    value: "",
-    recipent: "",
-    snackbar: false,
-    text: `I'm a multi-line snackbar.`,
-    currenciesAndAmmount: [
-      {
-        currency: "zloty",
-        amount: 24
-      },
-      {
-        currency: "dollar",
-        amount: 30
-      }
-    ],
+    selectedCurrency: null,
+    recipient: "",
+    snackbar: {
+      visible: false,
+      success: false,
+      text: ""
+    },
+    snackbarText: "",
     title: "",
     amount: 0,
     rules: {
-      required: value => !!value || "Required",
-      email: value => {
-        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(value) || "Invalid e-mail.";
-      }
+      required: value => !!value || "Required"
     }
   }),
 
   components: {},
+
   methods: {
-    async getUserCurrencies() {
+    checkAmount() {
+      if (this.selectedCurrency === null) return true;
+      const availableFunds = parseFloat(this.selectedCurrency.amount);
+      if (this.amount > availableFunds) {
+        return "You have exceeded your payment resources.";
+      }
+      return true;
+    },
+
+    async sendTransfer() {
       try {
-        const response = await currenciesAPI.getUserCurrencies();
-        this.arrCurrencies = response.data.currencies;
-      } catch (err) {
-        console.log(err);
+        await transfers.sendTransfer(this.formData);
+        await this.fetchWallet();
+        this.snackbar.text = "Transfer sent successfully";
+        this.snackbar.success = true;
+        this.snackbar.visible = true;
+      } catch (e) {
+        if (e.response.data.user_to) {
+          this.snackbar.text = "User with such name does not exist.";
+          this.snackbar.visible = true;
+          this.snackbar.success = false;
+        }
+        console.log(e);
       }
     },
-    checkAmmount() {
-      var amomountAvailable = this.value.split(" ")[1];
-      amomountAvailable = amomountAvailable.substring(1);
-      amomountAvailable = amomountAvailable.slice(0, -1);
 
-      if (this.amount > amomountAvailable) {
-        this.snackbar = true;
-      }
-    }
+    ...mapActions(["fetchWallet"])
   },
+
   computed: {
-    userCurrenciesAndAmmount: function() {
-      var res = this.currenciesAndAmmount.map(
-        cur => cur.currency + " (" + cur.amount + ")"
-      );
-      return res;
+    ...mapGetters(["wallet"]),
+
+    formData() {
+      return {
+        user_to: this.recipient,
+        currency: this.selectedCurrency.currency,
+        title: this.title,
+        amount: this.amount
+      };
     }
-  },
-  created() {
-    this.getUserCurrencies();
   }
 };
 </script>

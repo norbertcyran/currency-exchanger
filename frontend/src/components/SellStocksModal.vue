@@ -2,9 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" v-on="on">
-          Sell
-        </v-btn>
+        <v-btn color="primary" dark v-bind="attrs" v-on="on"> Sell </v-btn>
       </template>
       <v-card>
         <v-card-title>
@@ -46,7 +44,7 @@
             Close
           </v-btn>
           <v-btn color="blue darken-1" text @click="dialog = false">
-            Buy
+            Sell
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -61,34 +59,34 @@ export default {
     defaultCurrency: "Euro (26)",
     userStockAmmount2: 0,
     rules: {
-      available: value => value < this.userStockAmmount2 || "Required"
-    }
+      available: (value) => value < this.userStockAmmount2 || "Required",
+    },
   }),
   props: {
     label: {
-      type: String
+      type: String,
     },
     currentPrice: {
-      type: Number
+      type: Number,
     },
     userStockAmmount: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
 
   methods: {
     updateSth() {
       this.userStockAmmount2 = this.userStockAmmount;
-    }
+    },
   },
   computed: {
-    cost: function() {
+    cost: function () {
       return this.amount * this.currentPrice;
-    }
+    },
   },
   mounted() {
     this.updateSth();
-  }
+  },
 };
 </script>

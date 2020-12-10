@@ -11,6 +11,7 @@ from currency_exchanger.currencies.serializers import (
     CurrencyTransferSerializer,
 )
 from currency_exchanger.views import HistoricalModelViewSet
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 
@@ -23,6 +24,7 @@ class CurrencyViewSet(HistoricalModelViewSet):
 
 class CurrencyExchangeViewSet(ModelViewSet):
     serializer_class = CurrencyExchangeSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return CurrencyExchange.objects.filter(wallet__user=self.request.user)

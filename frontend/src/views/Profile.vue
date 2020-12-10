@@ -18,6 +18,24 @@
                 :otherUser="el.otherUser"
                 :title="el.title"
               ></TransferCard>
+              <CurrencyExchangeCard
+                v-for="(el, index) in userCurrencyExchanges"
+                :key="index"
+                :currencyFrom="el.currencyFrom"
+                :currencyTo="el.currencyTo"
+                :fromAmount="el.fromAmount"
+                :toAmount="el.toAmount"
+                :rate="el.rate"
+              ></CurrencyExchangeCard>
+              <StockCard
+                v-for="(el, index) in userStockTransactions"
+                :key="index"
+                :currency="el.currency"
+                :currencyAmount="el.currencyAmount"
+                :stockName="el.stockName"
+                :stockAmount="el.stockAmount"
+                :time="el.time"
+              ></StockCard>
             </v-card-text>
             <v-divider light></v-divider>
           </v-card>
@@ -28,6 +46,8 @@
 </template>
 <script>
 import TransferCard from "../components/ProfileTransactions/TransferCard";
+import CurrencyExchangeCard from "../components/ProfileTransactions/CurrencyExchangeCard";
+import StockCard from "../components/ProfileTransactions/StockCard";
 export default {
   data: () => ({
     recentTransactions: [],
@@ -37,19 +57,39 @@ export default {
         isOutgoing: true,
         amount: 41,
         otherUser: "gaws@gmail.com",
-        currency: "zlotys"
+        currency: "zloty",
       },
       {
         title: "money transfer2",
         isOutgoing: false,
         amount: 41,
         otherUser: "gaws@gmail.com",
-        currency: "zlotys"
-      }
-    ]
+        currency: "zloty",
+      },
+    ],
+    userCurrencyExchanges: [
+      {
+        currencyFrom: "zloty",
+        currencyTo: "euro",
+        fromAmount: 12,
+        toAmount: 48,
+        rate: 4,
+      },
+    ],
+
+    userStockTransactions: [
+      {
+        currency: "zloty",
+        currencyAmount: 45,
+        stockName: "Tesla",
+        stockAmount: 2,
+      },
+    ],
   }),
   components: {
-    TransferCard
-  }
+    TransferCard,
+    CurrencyExchangeCard,
+    StockCard,
+  },
 };
 </script>

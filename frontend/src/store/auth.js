@@ -45,6 +45,7 @@ const actions = {
       Vue.axios.defaults.headers.common["Authorization"] = `Token ${token}`;
       commit("AUTH_SUCCESS", token, user);
       dispatch("fetchWallet");
+      dispatch("fetchUser");
     } catch (err) {
       commit("AUTH_ERROR");
       localStorage.removeItem("token");
