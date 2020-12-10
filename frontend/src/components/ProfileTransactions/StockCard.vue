@@ -50,10 +50,7 @@ export default {
     getShortcut(currency) {
       console.log(currency);
       console.log(currenciesAndShortcuts);
-      for (const elem in currenciesAndShortcuts) {
-        if (currenciesAndShortcuts[elem].currency == currency)
-          return currenciesAndShortcuts[elem].shortcut;
-      }
+      return currenciesAndShortcuts.find(element => element.currency == currency).shortcut
     },
   },
 };
