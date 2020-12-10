@@ -28,9 +28,7 @@ export default {
     fromAmount: {
       type: Number,
     },
-    toAmount: {
-      type: Number,
-    },
+
     rate: {
       type: Number,
     },
@@ -43,6 +41,9 @@ export default {
     shortcutTo: function () {
       return this.getShortcut(this.currencyTo);
     },
+    toAmount: function(){
+        return (this.currencyFrom*this.rate).toFixed(2)
+    }
   },
   methods: {
     getShortcut(currency) {
