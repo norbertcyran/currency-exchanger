@@ -6,7 +6,7 @@
     <v-card-text
       >Dostępne środki: {{ this.amount }} {{ shortcut }}
       <div class="float-right">
-        <CashInModal :currency="this.currency" />
+        <CashInModal :currency="this.currency" :method="cashIn" />
       </div>
     </v-card-text>
 
@@ -45,6 +45,11 @@ export default {
           return currenciesAndShortcuts[elem].shortcut;
       }
     },
-  },
+  
+    cashIn(addAmount){
+      this.amount+=parseFloat(addAmount)
+      console.log(typeof addAmount)
+    }
+  }
 };
 </script>
