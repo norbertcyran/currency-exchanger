@@ -3,9 +3,9 @@ export default {
   async getUserCurrencies() {
     return Vue.axios.get("/currencies/getUserCurrencies");
   },
-  async getExchangeRate(from, to) {
-    return Vue.axios.get("/currencies/getExchangeRate", {
-      params: { from: from, to: to }
+  async getExchangeRate(code) {
+    return Vue.axios.get("/currencies/", {
+      params: {code: code}
     });
   }
 };

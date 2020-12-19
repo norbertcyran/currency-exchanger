@@ -9,7 +9,7 @@
           <v-combobox
             v-model="fromCurrency"
             label="From"
-            @change="getExchaneRate"
+            @change="getExchangeRate"
             :items="userCurrencies"
             outlined
             dense
@@ -55,6 +55,7 @@
 </template>
 <script>
 import currenciesAPI from "../api/currencies";
+import walletAPI from "../api/wallet"
 export default {
   data: () => ({
     currenciesAndAmmount: [
@@ -81,7 +82,7 @@ export default {
   }),
   computed: {
     userCurrencies: function() {
-      var res = this.currenciesAndAmmount.map(cur => cur.currency);
+      var res = this.getUserCurrrencies();
       return res;
     },
     maxAmmount: function() {
@@ -99,20 +100,18 @@ export default {
     },
     async getUserCurrrencies() {
       try {
-        const response = await currenciesAPI.getUserCurrencies();
-        this.currenciesAndAmmount = response.data.currenciesAndAmmount;
+        const response = await walletAPI.getWallet();
+        this.currenciesAndAmmount = response.data.currencies;
       } catch (err) {
         console.log(err);
       }
     },
-    async getExchaneRate() {
+    async getExchangeRate() {
       if (this.fromCurrency && this.toCurrency)
         try {
-          const response = await currenciesAPI.getExchangeRate(
-            this.fromCurrency,
-            this.toCurrency
-          );
-          this.exchangeRate = response.data.exchangeRate;
+          const from = await currenciesAPI.getExchangeRate(this.fromCurrency);
+          const to = await currenciesAPI.getExchangeRate(this.toCurrency);
+          this.exchangeRate = to.data.rate / from.data.rate;
         } catch (err) {
           console.log(err);
         }
