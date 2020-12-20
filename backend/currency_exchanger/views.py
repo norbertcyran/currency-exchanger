@@ -12,7 +12,7 @@ class HistoricalModelViewSet(ReadOnlyModelViewSet):
         return self.serializer_class
 
     def get_queryset(self):
-        if self.action == "history":
+        if self.action == "his tory":
             return self.history_model.objects.filter(currency=self.get_object())
         return super().get_queryset()
 
