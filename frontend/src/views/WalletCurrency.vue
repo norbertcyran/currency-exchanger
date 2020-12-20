@@ -11,7 +11,7 @@
 <script>
 import SmallCard from "../components/SmallCard";
 import walletAPI from "../api/wallet";
-
+import { mapGetters} from "vuex";
 
 
 
@@ -35,7 +35,9 @@ export default {
       }
     }
   },
-
+  computed: {
+    ...mapGetters(["wallet"]),
+  }
 
 
   created() {
