@@ -55,7 +55,10 @@
 </template>
 <script>
 import currenciesAPI from "../api/currencies";
-import walletAPI from "../api/wallet"
+import { mapGetters} from "vuex";
+
+
+
 export default {
   data: () => ({
     currenciesAndAmmount: [
@@ -80,9 +83,15 @@ export default {
       required: value => !!value || "Required."
     }
   }),
+
+
+
   computed: {
+
+
+
     userCurrencies: function() {
-      var res = this.getUserCurrrencies();
+      var res = this.currenciesAndAmmount.map(cur => cur.currency);
       return res;
     },
     maxAmmount: function() {
@@ -92,16 +101,28 @@ export default {
         }
       }
       return 0;
-    }
+    },
+    ...mapGetters(["wallet"]),
+
+
   },
+
+
   methods: {
+    async getAllCurrencies(){
+        const response = await currenciesAPI.getCurrencies();
+        return response.data;
+
+
+
+    },
+
     updateNewCurrencyAmmount() {
       this.toCurrencyAmmount = this.fromCurrencyAmmount * this.exchangeRate;
     },
     async getUserCurrrencies() {
       try {
-        const response = await walletAPI.getWallet();
-        this.currenciesAndAmmount = response.data.currencies;
+        this.currenciesAndAmmount = this.wallet.currencies;
       } catch (err) {
         console.log(err);
       }
@@ -115,7 +136,16 @@ export default {
         } catch (err) {
           console.log(err);
         }
-    }
-  }
+    },
+
+
+
+  },
+   created(){
+      this.getUserCurrrencies();
+      this.getExchangeRate();
+
+      this.allCurrencies = this.getAllCurrencies().code;
+  },
 };
 </script>
