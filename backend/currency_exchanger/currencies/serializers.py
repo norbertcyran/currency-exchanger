@@ -37,6 +37,7 @@ class CurrencyExchangeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CurrencyExchange
         fields = ("id", "currency_from", "currency_to", "amount")
+        read_only_fields = ["amount_to"]
 
     def validate(self, attrs):
         wallet = self.context["request"].user.wallet
