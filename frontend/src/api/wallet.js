@@ -1,5 +1,5 @@
 import Vue from "vue";
 
 export default {
-  getWallet: async () => Vue.axios.get("/wallet/")
+  getWallet: async () => Vue.axios.get("/api/wallet/")
 };

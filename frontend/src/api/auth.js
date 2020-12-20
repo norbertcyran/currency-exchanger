@@ -13,5 +13,5 @@ export default {
     return Vue.axios.post("/api/auth/register/", data);
   },
 
-  fetchUser: async () => Vue.axios.get("auth/user/")
+  fetchUser: async () => Vue.axios.get("/api/auth/user/")
 };
