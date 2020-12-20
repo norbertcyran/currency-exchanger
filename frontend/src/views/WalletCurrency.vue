@@ -10,7 +10,6 @@
 </template>
 <script>
 import SmallCard from "../components/SmallCard";
-import walletAPI from "../api/wallet";
 import { mapGetters} from "vuex";
 
 
@@ -26,8 +25,7 @@ export default {
   methods: {
     async getUserCurrencies() {
       try {
-        const response = await walletAPI.getWallet();
-        this.currencies = response.data.currencies;
+         this.currencies = this.wallet.currencies;
 
 
       } catch (err) {
@@ -37,7 +35,7 @@ export default {
   },
   computed: {
     ...mapGetters(["wallet"]),
-  }
+  },
 
 
   created() {
