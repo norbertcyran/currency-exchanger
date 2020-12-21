@@ -43,6 +43,22 @@ To fetch currency rates right away, use `python manage.py update_currency_rates`
 
 **WARNING**: Do not commit your `.env` file.
 
+### Polygoin.io API
+To fetch stock prices once a day(from two days ago),
+[create an account](https://polygoin.io/). After you get an account,
+in the `backend` directory create `.env` file, inside provide your API key:
+```dotenv
+POLYGON_IO_API_KEY=<your-api-key>
+```
+Restart an app and stocks will be fetched once a day.
+
+To fetch stocks right away, use `python manage.py update_stocks`
+
+**WARNING**: Do not commit your `.env` file.
+
+
+
+
 #### Pre-commit hooks
 To run linters and formatters before each commit, run:
 ```shell script
