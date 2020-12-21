@@ -11,7 +11,7 @@ class PolygonAPIException(Exception):
 
 def get_latest_rates() -> Dict[str, float]:
 
-    two_days_prior = date.today() - timedelta(days=2)
+    two_days_prior = date.today() - timedelta(days=3)
     date_formatted = two_days_prior.strftime("%Y-%m-%d")
 
     try:
@@ -23,6 +23,7 @@ def get_latest_rates() -> Dict[str, float]:
         raise PolygonAPIException("Connection to polygon.io failed") from exc
 
     rsp_json = rsp.json()
+    print(rsp_json)
 
     if not rsp_json["status"] == "OK":
         raise PolygonAPIException(f"Failed to retrieve stocks: {rsp_json['error']['info']}")
