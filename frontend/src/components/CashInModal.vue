@@ -52,7 +52,7 @@ export default {
             currency: this.currency,
             amount: this.amount,
           }
-          return await Vue.axios.post("cashin/", data);
+          return await Vue.axios.post("/api/cashin/", data);
       }
   }
 
