@@ -2,6 +2,7 @@ from currency_exchanger.currencies.models import (
     Currency,
     CurrencyExchange,
     CurrencyHistory,
+    CurrencyTransfer,
     WalletCurrency,
 )
 from currency_exchanger.validators import validate_transaction
@@ -49,3 +50,13 @@ class CurrencyExchangeSerializer(serializers.ModelSerializer):
         validate_transaction(wallet, currency, attrs["amount"])
 
         return attrs
+
+
+class CurrencyTransferSerializer(serializers.ModelSerializer):
+    currency = serializers.SlugRelatedField(
+        many=False, slug_field="code", queryset=Currency.objects.all()
+    )
+
+    class Meta:
+        model = CurrencyTransfer
+        fields = ("id", "currency", "amount")

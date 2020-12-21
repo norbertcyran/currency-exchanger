@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .currencies.views import CurrencyExchangeViewSet, CurrencyViewSet
+from .currencies.views import CurrencyExchangeViewSet, CurrencyTransferViewSet, CurrencyViewSet
 from .stocks.views import StockViewSet
 from .transfers.views import MoneyTransferViewSet
 from .users.views import UserViewSet
@@ -28,6 +28,7 @@ router.register(r"users", UserViewSet)
 router.register(r"currencies", CurrencyViewSet)
 router.register(r"exchange", CurrencyExchangeViewSet, basename="exchanges")
 router.register(r"stocks", StockViewSet)
+router.register(r"cashin", CurrencyTransferViewSet, basename="cashin")
 router.register(r"transfers", MoneyTransferViewSet, basename="transfers")
 
 urlpatterns = [
