@@ -45,6 +45,9 @@ export default {
     currency: {
       type: String,
     },
+    method:{
+      type:Function
+      },
   },
   methods:{
       async addMoney(){

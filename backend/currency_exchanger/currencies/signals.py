@@ -25,7 +25,10 @@ def update_wallet(instance: CurrencyExchange, created: bool, **kwargs) -> None:
     WalletCurrency.objects.filter(id=wallet_currency_from.id).update(
         amount=F("amount") - instance.amount
     )
-    WalletCurrency.objects.filter(id=wallet_currency_to.id).update(
-        amount=F("amount")
-        + instance.amount * (instance.currency_to.rate / instance.currency_from.rate)
-    )
+
+    amount_to = instance.amount * (instance.currency_to.rate / instance.currency_from.rate)
+
+    WalletCurrency.objects.filter(id=wallet_currency_to.id).update(amount=F("amount") + amount_to)
+
+    instance.amount_to = amount_to
+    instance.save()

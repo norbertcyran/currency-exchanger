@@ -31,7 +31,7 @@ class StockTransfer(models.Model):
 
 class StockHistory(models.Model):
     stocks = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name="history")
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(auto_now_add=True)
     price = models.DecimalField(decimal_places=2, max_digits=10)
 
     class Meta:
