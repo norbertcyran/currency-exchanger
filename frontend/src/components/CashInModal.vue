@@ -47,12 +47,12 @@ export default {
     },
   },
   methods:{
-      addMoney(){
+      async addMoney(){
           let data ={
             currency: this.currency,
             amount: this.amount,
           }
-          return Vue.axios.post("cashin/", data);
+          return await Vue.axios.post("cashin/", data);
       }
   }
 
