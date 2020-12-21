@@ -1,7 +1,7 @@
 import Vue from "vue";
 export default {
   async getStockNames() {
-    return Vue.axios.get("/apu/stocks/getNameList/");
+    return Vue.axios.get("/api/stocks/getNameList/");
   },
   async getStockPrices(stockName) {
     return Vue.axios.get("/api/stocks/getPrices/", {
