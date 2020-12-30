@@ -11,7 +11,7 @@ class PolygonAPIException(Exception):
 
 def get_latest_rates() -> Dict[str, float]:
 
-    two_days_prior = date.today() - timedelta(days=3)
+    two_days_prior = date.today() - timedelta(days=2)
     date_formatted = two_days_prior.strftime("%Y-%m-%d")
 
     try:
