@@ -23,7 +23,6 @@ def get_latest_rates() -> Dict[str, float]:
         raise PolygonAPIException("Connection to polygon.io failed") from exc
 
     rsp_json = rsp.json()
-    print(rsp_json)
 
     if not rsp_json["status"] == "OK":
         raise PolygonAPIException(f"Failed to retrieve stocks: {rsp_json['error']['info']}")
