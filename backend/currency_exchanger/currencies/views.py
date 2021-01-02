@@ -22,6 +22,15 @@ class CurrencyViewSet(HistoricalModelViewSet):
     serializer_class = CurrencySerializer
 
 
+class SingleCurrencyViewSet(ModelViewSet):
+    serializer_class = CurrencySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        code = self.request.GET.get("code")
+        return Currency.objects.filter(code=code)
+
+
 class CurrencyExchangeViewSet(ModelViewSet):
     serializer_class = CurrencyExchangeSerializer
     permission_classes = [IsAuthenticated]

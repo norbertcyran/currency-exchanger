@@ -23,6 +23,7 @@
             placeholder="Ammount"
             solo
             :rules="[rules.required]"
+            @change="updateNewCurrencyAmmount"
           ></v-text-field>
         </v-col>
         <v-col cols="12" sm="6" md="6">
@@ -48,7 +49,7 @@
     </v-container>
     <v-card-actions>
       <v-layout align-center justify-center
-        ><v-btn color="indigo" dark a>Change currency</v-btn>
+        ><v-btn color="indigo" dark a @click="exchangeCurrency">Change currency</v-btn>
       </v-layout>
     </v-card-actions>
   </v-card>
@@ -104,21 +105,28 @@ export default {
     },
     ...mapGetters(["wallet"]),
 
+    formData() {
+      return {
+        currency_from: this.fromCurrency,
+        currency_to: this.toCurrency,
+        amount: this.fromCurrencyAmmount,
+      };
+    }
 
   },
 
 
   methods: {
+
     async getAllCurrencies(){
         const response = await currenciesAPI.getCurrencies();
+        this.allCurrencies = response.data.map(c=>c.code);
         return response.data;
-
-
-
     },
 
-    updateNewCurrencyAmmount() {
-      this.toCurrencyAmmount = this.fromCurrencyAmmount * this.exchangeRate;
+    async updateNewCurrencyAmmount() {
+      this.getExchangeRate();
+      this.toCurrencyAmmount = parseFloat(this.fromCurrencyAmmount) * this.exchangeRate;
     },
     async getUserCurrrencies() {
       try {
@@ -132,20 +140,22 @@ export default {
         try {
           const from = await currenciesAPI.getExchangeRate(this.fromCurrency);
           const to = await currenciesAPI.getExchangeRate(this.toCurrency);
-          this.exchangeRate = to.data.rate / from.data.rate;
+          this.exchangeRate = Math.round(parseFloat(to.data[0].rate) / parseFloat(from.data[0].rate)*100)/100;
         } catch (err) {
           console.log(err);
         }
     },
-
-
-
+    async exchangeCurrency(){
+        try {
+            currenciesAPI.makeExchange(this.formData);
+        } catch (error) {
+            console.log(error);
+        }
+    },
   },
    created(){
       this.getUserCurrrencies();
-      this.getExchangeRate();
-
-      this.allCurrencies = this.getAllCurrencies().code;
+      this.getAllCurrencies();
   },
 };
 </script>
