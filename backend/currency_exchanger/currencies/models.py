@@ -37,4 +37,11 @@ class CurrencyExchange(models.Model):
     currency_from = models.ForeignKey(Currency, on_delete=models.CASCADE, related_name="+")
     currency_to = models.ForeignKey(Currency, on_delete=models.CASCADE, related_name="+")
     amount = models.DecimalField(decimal_places=2, max_digits=12)
+    amount_to = models.DecimalField(decimal_places=2, max_digits=12, default=0)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+
+class CurrencyTransfer(models.Model):
+    wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name="transfers")
+    currency = models.ForeignKey(Currency, on_delete=models.CASCADE)
+    amount = models.DecimalField(decimal_places=2, max_digits=12)
