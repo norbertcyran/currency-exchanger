@@ -9,3 +9,7 @@ class NotEnoughFundsAPIException(ValidationError):
 
 class NotEnoughFundsException(Exception):
     pass
+
+
+class NotEnoughStocksException(Exception):
+    pass

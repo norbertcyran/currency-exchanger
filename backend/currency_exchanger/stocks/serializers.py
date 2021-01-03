@@ -1,4 +1,5 @@
-from currency_exchanger.stocks.models import Stock, WalletStock
+from currency_exchanger.stocks.models import Stock, StockTransfer, WalletStock
+from currency_exchanger.validators import validate_stock_transaction
 from rest_framework import serializers
 
 
@@ -26,4 +27,15 @@ class WalletStockSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WalletStock
-        fields = ("id", "symbol", "currency", "price", "amount")
+        fields = ("id", "symbol", "currency", "price", "count")
+
+
+class StockTransferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StockTransfer
+        fields = ("id", "stock", "amount")
+
+    def validate(self, attrs):
+        wallet = self.context["request"].user.wallet
+        validate_stock_transaction(wallet, attrs["stock"])
+        return attrs

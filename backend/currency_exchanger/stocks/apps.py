@@ -2,4 +2,7 @@ from django.apps import AppConfig
 
 
 class StocksConfig(AppConfig):
-    name = "stocks"
+    name = "currency_exchanger.stocks"
+
+    def ready(self):
+        from . import signals  # noqa: F401
