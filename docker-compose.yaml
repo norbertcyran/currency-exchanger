@@ -1,46 +1,17 @@
 version: "3"
 services:
   backend:
-    image: currency-exchanger-backend:latest
+    image: gcr.io/academical/currency-exchanger-backend:latest
     build:
       context: backend
-    volumes:
-    - ./backend:/app
     ports:
     - 8000:8000
-    env_file:
-      - backend/.env.development
-    depends_on:
-      - postgres
-  frontend:
-    build:
-      context: frontend
-    volumes:
-    - ./frontend/src:/app/src
-    ports:
-      - 8080:8080
-  postgres:
-    image: postgres:13.1
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-    environment:
-      POSTGRES_PASSWORD: localpass
-      POSTGRES_DB: currency_exchanger
   rabbitmq:
     image: rabbitmq:3.8.9
-    ports:
-      - 5672:5672
   celery-worker:
-    image: currency-exchanger-backend:latest
-    volumes:
-    - ./backend:/app
-    env_file:
-      - backend/.env.development
-    command: celery -A currency_exchanger worker -l INFO -B
+    image: gcr.io/academical/currency-exchanger-backend:latest
+    command: celery -A currency_exchanger worker -l INFO
     depends_on:
       - rabbitmq
-      - postgres
 volumes:
   postgres-data:

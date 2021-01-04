@@ -16,4 +16,4 @@ RUN apt-get update \
 
 COPY . /app
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["gunicorn", "--workers=5", "--bind=0.0.0.0:8000", "currency_exchanger.wsgi:application"]

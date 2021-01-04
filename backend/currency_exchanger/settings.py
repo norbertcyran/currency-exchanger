@@ -10,27 +10,26 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import datetime
-import os
 from pathlib import Path
 
-import dj_database_url
-from dotenv import find_dotenv, load_dotenv
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv(find_dotenv())
+env = environ.Env()
+environ.Env.read_env(str(BASE_DIR / ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "^snjj+ga!l6^v%6us@^wikdph^yai(70=j8!_mewexz(a+90u3"
+SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", [])
 
 
 # Application definition
@@ -95,9 +94,7 @@ WSGI_APPLICATION = "currency_exchanger.wsgi.application"
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default="postgres://postgres:localpass@localhost:5432/currency_exchanger"
-    )
+    "default": env.db(default="postgres://postgres:localpass@localhost:5432/currency_exchanger")
 }
 
 
@@ -160,7 +157,7 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-CELERY_BROKER_URL = "amqp://guest@rabbitmq:5672/"
+CELERY_BROKER_URL = env.url("CELERY_BROKER_URL", default="amqp://guest@rabbitmq:5672/")
 CELERY_BEAT_SCHEDULE = {
     "update-currency-rates": {
         "task": "currency_exchanger.currencies.tasks.update_currency_rates_async",
@@ -175,7 +172,7 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 FIXER_IO_BASE_URL = "http://data.fixer.io/api"
-FIXER_IO_API_KEY = os.getenv("FIXER_IO_API_KEY")
+FIXER_IO_API_KEY = env.str("FIXER_IO_API_KEY")
 
 POLYGON_IO_BASE_URL = "https://api.polygon.io"
-POLYGON_IO_API_KEY = os.getenv("POLYGON_IO_API_KEY")
+POLYGON_IO_API_KEY = env.str("POLYGON_IO_API_KEY")

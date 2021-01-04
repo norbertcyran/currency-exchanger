@@ -1,0 +1,35 @@
+version: "3"
+services:
+  traefik:
+    image: traefik:2.3.5
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      - --providers.docker
+      - --providers.docker.exposedbydefault=false
+      - --accesslog
+      - --log
+      - --entrypoints.web.address=:80
+    ports:
+    - 80:80
+  backend:
+    env_file:
+      - backend/.env
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.frontend.rule=PathPrefix(`/api`)
+      - traefik.http.routers.frontend.entrypoints=web
+  frontend:
+    image: gcr.io/academical/currency-exchanger-frontend:latest
+    build:
+      context: frontend
+      dockerfile: Dockerfile.prod
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.backend.rule=PathPrefix(`/`)
+      - traefik.http.routers.backend.entrypoints=web
+  celery-beat:
+    image: gcr.io/academical/currency-exchanger-backend:latest
+    command: celery -A currency_exchanger beat -l INFO
+    depends_on:
+      - rabbitmq

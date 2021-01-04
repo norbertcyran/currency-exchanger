@@ -1,0 +1,38 @@
+services:
+  backend:
+    volumes:
+    - ./backend:/app
+    env_file:
+      - backend/.env.development
+    depends_on:
+      - postgres
+    command: python manage.py runserver 0.0.0.0:8000
+  frontend:
+    image: currency-exchanger-frontend-dev:latest
+    build:
+      context: frontend
+    volumes:
+      - ./frontend/src:/app/src
+    ports:
+      - 8080:8080
+  postgres:
+    image: postgres:13.1
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: localpass
+      POSTGRES_DB: currency_exchanger
+  rabbitmq:
+    ports:
+      - 5672:5672
+  celery-worker:
+    volumes:
+      - ./backend:/app
+    env_file:
+      - backend/.env.development
+    command: celery -A currency_exchanger worker -l INFO -B
+    depends_on:
+      - rabbitmq
+      - postgres
