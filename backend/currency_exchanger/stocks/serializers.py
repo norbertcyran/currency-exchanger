@@ -33,7 +33,8 @@ class WalletStockSerializer(serializers.ModelSerializer):
 class StockTransferSerializer(serializers.ModelSerializer):
     class Meta:
         model = StockTransfer
-        fields = ("id", "stock", "amount")
+        fields = ("stock", "amount")
+        read_only_fields = ["wallet"]
 
     def validate(self, attrs):
         wallet = self.context["request"].user.wallet
