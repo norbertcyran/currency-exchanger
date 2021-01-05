@@ -140,7 +140,7 @@ export default {
         try {
           const from = await currenciesAPI.getExchangeRate(this.fromCurrency);
           const to = await currenciesAPI.getExchangeRate(this.toCurrency);
-          this.exchangeRate = Math.round(parseFloat(to.data[0].rate) / parseFloat(from.data[0].rate)*100)/100;
+          this.exchangeRate = Math.round(parseFloat(to.data.rate) / parseFloat(from.data.rate)*100)/100;
         } catch (err) {
           console.log(err);
         }
