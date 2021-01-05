@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "currency-exchanger.name" . }}-frontend
+  labels:
+    {{- include "currency-exchanger.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas.frontend }}
+  selector:
+    matchLabels:
+      {{- include "currency-exchanger.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/name: {{ include "currency-exchanger.name" . }}-frontend
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "currency-exchanger.name" . }}-frontend
+        {{- include "currency-exchanger.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}-frontend
+          image: "{{ .Values.images.frontend.repository }}:{{ .Values.images.frontend.tag }}"
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "currency-exchanger.name" . }}-backend
+  labels:
+    {{- include "currency-exchanger.labels" . | nindent 4 }}
+  annotations:
+    checksum/config: {{ include (print $.Template.BasePath "/configmap-backend.yaml") . | sha256sum }}
+    checksum/secret: {{ include (print $.Template.BasePath "/secret-backend.yaml") . | sha256sum }}
+spec:
+  replicas: {{ .Values.replicas.backend }}
+  selector:
+    matchLabels:
+      {{- include "currency-exchanger.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/name: {{ include "currency-exchanger.name" . }}-backend
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "currency-exchanger.name" . }}-backend
+        {{- include "currency-exchanger.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: "{{ .Values.serviceAccountName }}"
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}-backend
+          image: "{{ .Values.images.backend.repository }}:{{ .Values.images.backend.tag }}"
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: {{ include "currency-exchanger.name" . }}-backend
+            - configMapRef:
+                name: {{ include "currency-exchanger.name" . }}-backend
+        - name: cloud-sql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+          command:
+            - "/cloud_sql_proxy"
+            - "-instances={{ .Values.sqlConnectionName }}=tcp:5432"
+          securityContext:
+            runAsNonRoot: true

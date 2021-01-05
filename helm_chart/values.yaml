@@ -1,0 +1,39 @@
+# Default values for currency-exchanger.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+namespace: currency-exchanger
+
+replicas:
+  backend: 1
+  frontend: 1
+  celery: 1
+  rabbitmq: 1
+
+images:
+  backend:
+    repository: gcr.io/academical/currency-exchanger-backend
+    tag: latest
+  frontend:
+    repository: gcr.io/academical/currency-exchanger-frontend
+    tag: latest
+  rabbitmq:
+    repository: rabbitmq
+    tag: 3.8.9
+  pullPolicy: Always
+
+ingress:
+  host: "currencyexchanger.tk"
+  tls:
+    - secretName: currency-exchanger-tls
+      hosts:
+        - currencyexchanger.tk
+
+serviceAccountName: sql-serviceaccount
+sqlConnectionName: academical:europe-west3:academical-postgres
+
+config:
+  DEBUG: "off"
+  ALLOWED_HOSTS: "*"
+
+secrets: {}

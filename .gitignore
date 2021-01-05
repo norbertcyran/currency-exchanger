@@ -163,3 +163,5 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+secrets.yaml
