@@ -29,6 +29,7 @@ router.register(r"currencies", CurrencyViewSet)
 router.register(r"exchange", CurrencyExchangeViewSet, basename="exchanges")
 router.register(r"stocktransfer", StockTranserferViewSet, basename="stocktransfers")
 router.register(r"stocks", StockViewSet)
+router.register(r"cashin", CurrencyTransferViewSet, basename="cashin")
 router.register(r"transfers", MoneyTransferViewSet, basename="transfers")
 
 urlpatterns = [

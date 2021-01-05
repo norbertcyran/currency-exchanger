@@ -166,8 +166,16 @@ CELERY_BEAT_SCHEDULE = {
         "task": "currency_exchanger.currencies.tasks.update_currency_rates_async",
         "schedule": datetime.timedelta(hours=1),
         "args": (),
-    }
+    },
+    "update-stocks": {
+        "task": "currency_exchanger.stocks.tasks.update_stocks_async",
+        "schedule": datetime.timedelta(days=1),
+        "args": (),
+    },
 }
 
 FIXER_IO_BASE_URL = "http://data.fixer.io/api"
 FIXER_IO_API_KEY = os.getenv("FIXER_IO_API_KEY")
+
+POLYGON_IO_BASE_URL = "https://api.polygon.io"
+POLYGON_IO_API_KEY = os.getenv("POLYGON_IO_API_KEY")
