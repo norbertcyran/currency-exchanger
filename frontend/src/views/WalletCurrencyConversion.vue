@@ -18,12 +18,12 @@
 
         <v-col cols="12" sm="6" md="6">
           <v-text-field
-            v-model="fromCurrencyAmmount"
+            v-model="fromCurrencyAmount"
             label="Solo"
-            placeholder="Ammount"
+            placeholder="Amount"
             solo
             :rules="[rules.required]"
-            @change="updateNewCurrencyAmmount"
+            @change="updateNewCurrencyAmount"
           ></v-text-field>
         </v-col>
         <v-col cols="12" sm="6" md="6">
@@ -33,7 +33,7 @@
             :items="allCurrencies"
             outlined
             dense
-            @change="updateNewCurrencyAmmount"
+            @change="updateNewCurrencyAmount"
           ></v-combobox>
         </v-col>
 
@@ -42,7 +42,7 @@
             label=""
             solo
             disabled
-            v-model="toCurrencyAmmount"
+            v-model="toCurrencyAmount"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -62,7 +62,7 @@ import { mapGetters} from "vuex";
 
 export default {
   data: () => ({
-    currenciesAndAmmount: [
+    currenciesAndAmount: [
       {
         currency: "zloty",
         amount: 24
@@ -76,11 +76,11 @@ export default {
     exchangeRate: 3.65,
     fromCurrency: "",
     toCurrency: "",
-    fromCurrencyAmmount: 0,
-    toCurrencyAmmount: 0,
+    fromCurrencyAmount: 0,
+    toCurrencyAmount: 0,
 
     rules: {
-      //   limitAmmount:  value => value <= this.maxAmmount || "you cannot exceed your limit",
+      //   limitAmount:  value => value <= this.maxAmount || "you cannot exceed your limit",
       required: value => !!value || "Required."
     }
   }),
@@ -92,13 +92,13 @@ export default {
 
 
     userCurrencies: function() {
-      var res = this.currenciesAndAmmount.map(cur => cur.currency);
+      var res = this.currenciesAndAmount.map(cur => cur.currency);
       return res;
     },
-    maxAmmount: function() {
-      for (var i = 0; i < this.currenciesAndAmmount.length; i++) {
-        if (this.currenciesAndAmmount[i].currency === this.fromCurrency) {
-          return this.currenciesAndAmmount[i].amount;
+    maxAmount: function() {
+      for (var i = 0; i < this.currenciesAndAmount.length; i++) {
+        if (this.currenciesAndAmount[i].currency === this.fromCurrency) {
+          return this.currenciesAndAmount[i].amount;
         }
       }
       return 0;
@@ -109,7 +109,7 @@ export default {
       return {
         currency_from: this.fromCurrency,
         currency_to: this.toCurrency,
-        amount: this.fromCurrencyAmmount,
+        amount: this.fromCurrencyAmount,
       };
     }
 
@@ -124,13 +124,13 @@ export default {
         return response.data;
     },
 
-    async updateNewCurrencyAmmount() {
+    async updateNewCurrencyAmount() {
       this.getExchangeRate();
-      this.toCurrencyAmmount = parseFloat(this.fromCurrencyAmmount) * this.exchangeRate;
+      this.toCurrencyAmount = parseFloat(this.fromCurrencyAmount) * this.exchangeRate;
     },
     async getUserCurrrencies() {
       try {
-        this.currenciesAndAmmount = this.wallet.currencies;
+        this.currenciesAndAmount = this.wallet.currencies;
       } catch (err) {
         console.log(err);
       }

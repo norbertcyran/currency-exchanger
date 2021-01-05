@@ -34,6 +34,7 @@ class SingleCurrencyViewSet(ModelViewSet):
 class CurrencyExchangeViewSet(ModelViewSet):
     serializer_class = CurrencyExchangeSerializer
     permission_classes = [IsAuthenticated]
+    lookup_field = "code"
 
     def get_queryset(self):
         return CurrencyExchange.objects.filter(wallet__user=self.request.user)
