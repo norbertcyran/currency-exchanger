@@ -21,20 +21,18 @@
               <CurrencyExchangeCard
                 v-for="(el, index) in userCurrencyExchanges"
                 :key="index"
-                :currencyFrom="el.currencyFrom"
-                :currencyTo="el.currencyTo"
-                :fromAmount="el.fromAmount"
-                :toAmount="el.toAmount"
-                :rate="el.rate"
+                :currencyFrom="el.currency_from"
+                :currencyTo="el.currency_to"
+                :fromAmount="parseFloat(el.amount)"
+                :toAmount="parseFloat(el.amount_to)"
               ></CurrencyExchangeCard>
               <StockCard
                 v-for="(el, index) in userStockTransactions"
                 :key="index"
-                :currency="el.currency"
-                :currencyAmount="el.currencyAmount"
-                :stockName="el.stockName"
-                :stockAmount="el.stockAmount"
-                :time="el.time"
+                :currencyAmount="parseFloat(el.price)"
+                :stockName="el.stock"
+                :stockAmount="parseInt(el.amount)"
+                :time="el.id"
               ></StockCard>
             </v-card-text>
             <v-divider light></v-divider>
@@ -48,6 +46,8 @@
 import TransferCard from "../components/ProfileTransactions/TransferCard";
 import CurrencyExchangeCard from "../components/ProfileTransactions/CurrencyExchangeCard";
 import StockCard from "../components/ProfileTransactions/StockCard";
+import currenciesAPI from "../api/currencies"
+import stocksAPI from "../api/stocks"
 export default {
   data: () => ({
     recentTransactions: [],
@@ -67,29 +67,43 @@ export default {
         currency: "zloty",
       },
     ],
-    userCurrencyExchanges: [
-      {
-        currencyFrom: "zloty",
-        currencyTo: "euro",
-        fromAmount: 12,
-        toAmount: 48,
-        rate: 4,
-      },
-    ],
-
-    userStockTransactions: [
-      {
-        currency: "zloty",
-        currencyAmount: 45,
-        stockName: "Tesla",
-        stockAmount: 2,
-      },
-    ],
+    // userCurrencyExchanges: [
+    //   {
+    //     currencyFrom: "zloty",
+    //     currencyTo: "euro",
+    //     fromAmount: 12,
+    //     toAmount: 48,
+    //   },
+    // ],
+    userCurrencyExchanges: [],
+    userStockTransactions: [],
   }),
   components: {
     TransferCard,
     CurrencyExchangeCard,
     StockCard,
   },
+  methods:{
+    async getUserExchanges() {
+      try {
+       const response =await currenciesAPI.getCurrencyExchanges()
+        this.userCurrencyExchanges = response.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async getUserStockTransfers() {
+      try {
+       const response =await stocksAPI.getStockTransfers()
+        this.userStockTransactions = response.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+ mounted(){
+   this.getUserExchanges()
+   this.getUserStockTransfers()
+  }
 };
 </script>

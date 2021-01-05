@@ -28,10 +28,10 @@ export default {
     fromAmount: {
       type: Number,
     },
-
-    rate: {
+    toAmount: {
       type: Number,
     },
+
     time:{}
   },
   computed: {
@@ -41,9 +41,6 @@ export default {
     shortcutTo: function () {
       return this.getShortcut(this.currencyTo);
     },
-        toAmount: function(){
-        return (this.currencyFrom*this.rate).toFixed(2)
-    }
   },
   methods: {
     getShortcut(currency) {
