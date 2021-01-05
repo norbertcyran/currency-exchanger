@@ -7,5 +7,8 @@ export default {
     return Vue.axios.get("/currencies/getExchangeRate", {
       params: { from: from, to: to }
     });
+  },
+  async getCurrencyExchanges(){
+    return Vue.axios.get("/api/exchange");
   }
 };

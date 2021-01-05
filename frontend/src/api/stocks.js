@@ -13,5 +13,8 @@ export default {
   },
   async buyStocks() {
     return Vue.axios.get("/stocks/buyStocks/");
+  },
+  async getStockTransfers() {
+    return Vue.axios.get("/api/stocktransfer");
   }
 };

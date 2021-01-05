@@ -26,7 +26,8 @@ class WalletStock(models.Model):
 class StockTransfer(models.Model):
     wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name="stock_transfers")
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name="+")
-    amount = models.PositiveIntegerField()
+    amount = models.IntegerField()
+    price=models.DecimalField(decimal_places=2, max_digits=10)
 
 
 class StockHistory(models.Model):
