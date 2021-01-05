@@ -17,6 +17,7 @@ from rest_framework.viewsets import ModelViewSet
 
 class CurrencyViewSet(HistoricalModelViewSet):
     queryset = Currency.objects.all()
+    lookup_field = "code"
     history_model = CurrencyHistory
     history_serializer_class = CurrencyHistorySerializer
     serializer_class = CurrencySerializer

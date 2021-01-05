@@ -9,7 +9,7 @@
           <v-combobox
             v-model="fromCurrency"
             label="From"
-            @change="getExchaneRate"
+            @change="getExchangeRate"
             :items="userCurrencies"
             outlined
             dense
@@ -18,11 +18,12 @@
 
         <v-col cols="12" sm="6" md="6">
           <v-text-field
-            v-model="fromCurrencyAmmount"
+            v-model="fromCurrencyAmount"
             label="Solo"
-            placeholder="Ammount"
+            placeholder="Amount"
             solo
             :rules="[rules.required]"
+            @change="updateNewCurrencyAmount"
           ></v-text-field>
         </v-col>
         <v-col cols="12" sm="6" md="6">
@@ -32,7 +33,7 @@
             :items="allCurrencies"
             outlined
             dense
-            @change="updateNewCurrencyAmmount"
+            @change="updateNewCurrencyAmount"
           ></v-combobox>
         </v-col>
 
@@ -41,23 +42,27 @@
             label=""
             solo
             disabled
-            v-model="toCurrencyAmmount"
+            v-model="toCurrencyAmount"
           ></v-text-field>
         </v-col>
       </v-row>
     </v-container>
     <v-card-actions>
       <v-layout align-center justify-center
-        ><v-btn color="indigo" dark a>Change currency</v-btn>
+        ><v-btn color="indigo" dark a @click="exchangeCurrency">Change currency</v-btn>
       </v-layout>
     </v-card-actions>
   </v-card>
 </template>
 <script>
 import currenciesAPI from "../api/currencies";
+import { mapGetters} from "vuex";
+
+
+
 export default {
   data: () => ({
-    currenciesAndAmmount: [
+    currenciesAndAmount: [
       {
         currency: "zloty",
         amount: 24
@@ -71,52 +76,86 @@ export default {
     exchangeRate: 3.65,
     fromCurrency: "",
     toCurrency: "",
-    fromCurrencyAmmount: 0,
-    toCurrencyAmmount: 0,
+    fromCurrencyAmount: 0,
+    toCurrencyAmount: 0,
 
     rules: {
-      //   limitAmmount:  value => value <= this.maxAmmount || "you cannot exceed your limit",
+      //   limitAmount:  value => value <= this.maxAmount || "you cannot exceed your limit",
       required: value => !!value || "Required."
     }
   }),
+
+
+
   computed: {
+
+
+
     userCurrencies: function() {
-      var res = this.currenciesAndAmmount.map(cur => cur.currency);
+      var res = this.currenciesAndAmount.map(cur => cur.currency);
       return res;
     },
-    maxAmmount: function() {
-      for (var i = 0; i < this.currenciesAndAmmount.length; i++) {
-        if (this.currenciesAndAmmount[i].currency === this.fromCurrency) {
-          return this.currenciesAndAmmount[i].amount;
+    maxAmount: function() {
+      for (var i = 0; i < this.currenciesAndAmount.length; i++) {
+        if (this.currenciesAndAmount[i].currency === this.fromCurrency) {
+          return this.currenciesAndAmount[i].amount;
         }
       }
       return 0;
+    },
+    ...mapGetters(["wallet"]),
+
+    formData() {
+      return {
+        currency_from: this.fromCurrency,
+        currency_to: this.toCurrency,
+        amount: this.fromCurrencyAmount,
+      };
     }
+
   },
+
+
   methods: {
-    updateNewCurrencyAmmount() {
-      this.toCurrencyAmmount = this.fromCurrencyAmmount * this.exchangeRate;
+
+    async getAllCurrencies(){
+        const response = await currenciesAPI.getCurrencies();
+        this.allCurrencies = response.data.map(c=>c.code);
+        return response.data;
+    },
+
+    async updateNewCurrencyAmount() {
+      this.getExchangeRate();
+      this.toCurrencyAmount = parseFloat(this.fromCurrencyAmount) * this.exchangeRate;
     },
     async getUserCurrrencies() {
       try {
-        const response = await currenciesAPI.getUserCurrencies();
-        this.currenciesAndAmmount = response.data.currenciesAndAmmount;
+        this.currenciesAndAmount = this.wallet.currencies;
       } catch (err) {
         console.log(err);
       }
     },
-    async getExchaneRate() {
+    async getExchangeRate() {
       if (this.fromCurrency && this.toCurrency)
         try {
-          const response = await currenciesAPI.getExchangeRate(
-            this.fromCurrency,
-            this.toCurrency
-          );
-          this.exchangeRate = response.data.exchangeRate;
+          const from = await currenciesAPI.getExchangeRate(this.fromCurrency);
+          const to = await currenciesAPI.getExchangeRate(this.toCurrency);
+          this.exchangeRate = Math.round(parseFloat(to.data.rate) / parseFloat(from.data.rate)*100)/100;
         } catch (err) {
           console.log(err);
         }
-    }
-  }
+    },
+    async exchangeCurrency(){
+        try {
+            currenciesAPI.makeExchange(this.formData);
+        } catch (error) {
+            console.log(error);
+        }
+    },
+  },
+   created(){
+      this.getUserCurrrencies();
+      this.getAllCurrencies();
+  },
 };
 </script>
