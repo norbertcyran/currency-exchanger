@@ -13,3 +13,8 @@ class NotEnoughFundsException(Exception):
 
 class NotEnoughStocksException(Exception):
     pass
+
+
+class NotEnoughStocksAPIException(Exception):
+    default_code = "not_enough_stocks"
+    default_detail = _("Not enough stocks to perform this action")

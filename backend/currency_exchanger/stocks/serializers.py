@@ -38,5 +38,5 @@ class StockTransferSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         wallet = self.context["request"].user.wallet
-        validate_stock_transaction(wallet, attrs["stock"])
+        validate_stock_transaction(wallet, attrs["stock"], attrs["amount"])
         return attrs
