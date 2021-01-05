@@ -23,27 +23,17 @@ def stock_update(instance: StockTransfer, created: bool, **kwargs) -> None:
 
     currency_amount = instance.amount * stock.price
 
-    if instance.amount > 0:
-        if currency_amount < wallet_currency.amount:
-
-            WalletCurrency.objects.filter(id=wallet_currency.id).update(
-                amount=F("amount") - currency_amount
-            )
-            WalletStock.objects.filter(id=wallet_stock.id).update(
-                count=F("count") + instance.amount
-            )
-        else:
+    if currency_amount > wallet_currency.amount:
             raise NotEnoughFundsException
 
-    if instance.amount < 0:
-        if instance.amount + wallet_stock.count >= 0:
-            WalletStock.objects.filter(id=wallet_stock.id).update(
-                count=F("count") + instance.amount
-            )
-            WalletCurrency.objects.filter(id=wallet_currency.id).update(
-                amount=F("amount") - currency_amount
-            )
-        else:
+    if instance.amount + wallet_stock.count < 0:
             raise NotEnoughStocksException
+            
+    WalletStock.objects.filter(id=wallet_stock.id).update(
+        count=F("count") + instance.amount
+    )
+    WalletCurrency.objects.filter(id=wallet_currency.id).update(
+        amount=F("amount") - currency_amount
+    )
 
     instance.save()
