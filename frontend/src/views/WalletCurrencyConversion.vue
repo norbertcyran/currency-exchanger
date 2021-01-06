@@ -49,16 +49,16 @@
     </v-container>
     <v-card-actions>
       <v-layout align-center justify-center
-        ><v-btn color="indigo" dark a @click="exchangeCurrency">Change currency</v-btn>
+        ><v-btn color="indigo" dark a @click="exchangeCurrency"
+          >Change currency</v-btn
+        >
       </v-layout>
     </v-card-actions>
   </v-card>
 </template>
 <script>
 import currenciesAPI from "../api/currencies";
-import { mapGetters} from "vuex";
-
-
+import { mapGetters } from "vuex";
 
 export default {
   data: () => ({
@@ -85,12 +85,7 @@ export default {
     }
   }),
 
-
-
   computed: {
-
-
-
     userCurrencies: function() {
       var res = this.currenciesAndAmount.map(cur => cur.currency);
       return res;
@@ -109,24 +104,22 @@ export default {
       return {
         currency_from: this.fromCurrency,
         currency_to: this.toCurrency,
-        amount: this.fromCurrencyAmount,
+        amount: this.fromCurrencyAmount
       };
     }
-
   },
 
-
   methods: {
-
-    async getAllCurrencies(){
-        const response = await currenciesAPI.getCurrencies();
-        this.allCurrencies = response.data.map(c=>c.code);
-        return response.data;
+    async getAllCurrencies() {
+      const response = await currenciesAPI.getCurrencies();
+      this.allCurrencies = response.data.map(c => c.code);
+      return response.data;
     },
 
     async updateNewCurrencyAmount() {
       this.getExchangeRate();
-      this.toCurrencyAmount = parseFloat(this.fromCurrencyAmount) * this.exchangeRate;
+      this.toCurrencyAmount =
+        parseFloat(this.fromCurrencyAmount) * this.exchangeRate;
     },
     async getUserCurrrencies() {
       try {
@@ -140,22 +133,25 @@ export default {
         try {
           const from = await currenciesAPI.getExchangeRate(this.fromCurrency);
           const to = await currenciesAPI.getExchangeRate(this.toCurrency);
-          this.exchangeRate = Math.round(parseFloat(to.data.rate) / parseFloat(from.data.rate)*100)/100;
+          this.exchangeRate =
+            Math.round(
+              (parseFloat(to.data.rate) / parseFloat(from.data.rate)) * 100
+            ) / 100;
         } catch (err) {
           console.log(err);
         }
     },
-    async exchangeCurrency(){
-        try {
-            currenciesAPI.makeExchange(this.formData);
-        } catch (error) {
-            console.log(error);
-        }
-    },
+    async exchangeCurrency() {
+      try {
+        currenciesAPI.makeExchange(this.formData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   },
-   created(){
-      this.getUserCurrrencies();
-      this.getAllCurrencies();
-  },
+  created() {
+    this.getUserCurrrencies();
+    this.getAllCurrencies();
+  }
 };
 </script>

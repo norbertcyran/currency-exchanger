@@ -57,15 +57,15 @@ export default {
         isOutgoing: true,
         amount: 41,
         otherUser: "gaws@gmail.com",
-        currency: "zloty",
+        currency: "zloty"
       },
       {
         title: "money transfer2",
         isOutgoing: false,
         amount: 41,
         otherUser: "gaws@gmail.com",
-        currency: "zloty",
-      },
+        currency: "zloty"
+      }
     ],
     userCurrencyExchanges: [
       {
@@ -73,8 +73,8 @@ export default {
         currencyTo: "euro",
         fromAmount: 12,
         toAmount: 48,
-        rate: 4,
-      },
+        rate: 4
+      }
     ],
 
     userStockTransactions: [
@@ -82,14 +82,14 @@ export default {
         currency: "zloty",
         currencyAmount: 45,
         stockName: "Tesla",
-        stockAmount: 2,
-      },
-    ],
+        stockAmount: 2
+      }
+    ]
   }),
   components: {
     TransferCard,
     CurrencyExchangeCard,
-    StockCard,
-  },
+    StockCard
+  }
 };
 </script>

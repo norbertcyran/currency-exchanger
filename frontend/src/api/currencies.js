@@ -4,12 +4,12 @@ export default {
     return Vue.axios.get("/api/currencies/getUserCurrencies");
   },
   async getExchangeRate(curr) {
-    return Vue.axios.get("/api/currencies/"+curr+"/");
+    return Vue.axios.get("/api/currencies/" + curr + "/");
   },
-  async getCurrencies(){
+  async getCurrencies() {
     return Vue.axios.get("/api/currencies/");
   },
-  async makeExchange(data){
-    return Vue.axios.post("/api/exchange/",data);
+  async makeExchange(data) {
+    return Vue.axios.post("/api/exchange/", data);
   }
 };

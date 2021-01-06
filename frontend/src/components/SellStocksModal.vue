@@ -59,34 +59,34 @@ export default {
     defaultCurrency: "Euro (26)",
     userStockAmmount2: 0,
     rules: {
-      available: (value) => value < this.userStockAmmount2 || "Required",
-    },
+      available: value => value < this.userStockAmmount2 || "Required"
+    }
   }),
   props: {
     label: {
-      type: String,
+      type: String
     },
     currentPrice: {
-      type: Number,
+      type: Number
     },
     userStockAmmount: {
       type: Number,
-      default: 0,
-    },
+      default: 0
+    }
   },
 
   methods: {
     updateSth() {
       this.userStockAmmount2 = this.userStockAmmount;
-    },
+    }
   },
   computed: {
-    cost: function () {
+    cost: function() {
       return this.amount * this.currentPrice;
-    },
+    }
   },
   mounted() {
     this.updateSth();
-  },
+  }
 };
 </script>
