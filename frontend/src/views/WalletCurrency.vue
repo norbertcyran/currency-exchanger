@@ -1,48 +1,70 @@
 <template>
-  <div class="mt-4">
-    <SmallCard
-      v-for="el in currencies"
-      :key="el.currency"
-      :currency="el.currency"
-      :amount="el.amount"
-    ></SmallCard>
+  <div class="ma-4">
+    <v-row>
+      <v-col>
+        <h3>Your currencies</h3>
+      </v-col>
+    </v-row>
+    <CurrencyCard
+      v-for="walletCurrency in wallet.currencies"
+      :key="walletCurrency.currency"
+      :currency="walletCurrency.currency"
+      :amount="walletCurrency.amount"
+    ></CurrencyCard>
+    <v-row>
+      <v-col>
+        <h3>Cash in</h3>
+      </v-col>
+    </v-row>
+    <CashInForm
+      :user-currencies="userCurrencies"
+      :other-currencies="otherCurrencies"
+      :on-submit="cashIn"
+    />
   </div>
 </template>
 <script>
-import SmallCard from "../components/SmallCard";
-import { mapGetters} from "vuex";
-
-
+import CurrencyCard from "@/components/CurrencyCard";
+import currenciesApi from "@/api/currencies";
+import { mapActions, mapGetters } from "vuex";
+import CashInForm from "@/components/CashInForm";
 
 export default {
-
   data: () => ({
-    currencies: [
-      { currency: "dollar", amount: 300.23 },
-      { currency: "zlotys", amount: 20.2 }
-    ]
+    currencies: []
   }),
   methods: {
-    async getUserCurrencies() {
-      try {
-         this.currencies = this.wallet.currencies;
+    ...mapActions(["fetchWallet", "cashIn"]),
 
-
-      } catch (err) {
-        console.log(err);
-      }
+    async fetchCurrencies() {
+      const response = await currenciesApi.getCurrencies();
+      this.currencies = response.data;
     }
   },
   computed: {
     ...mapGetters(["wallet"]),
+    userCurrencies() {
+      return this.wallet.currencies.map(currency => ({
+        code: currency.currency,
+        amount: currency.amount
+      }));
+    },
+    otherCurrencies() {
+      const userCodes = this.wallet.currencies.map(
+        currency => currency.currency
+      );
+      return this.currencies.filter(
+        currency => !userCodes.includes(currency.code)
+      );
+    }
   },
 
-
-  created() {
-    this.getUserCurrencies();
+  async created() {
+    await Promise.all([this.fetchWallet(), this.fetchCurrencies()]);
   },
   components: {
-    SmallCard
+    CashInForm,
+    CurrencyCard
   }
 };
 </script>

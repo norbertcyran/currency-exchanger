@@ -1,7 +1,10 @@
 import wallet from "@/api/wallet";
 
 const state = () => ({
-  wallet: {},
+  wallet: {
+    currencies: [],
+    stocks: []
+  },
   status: ""
 });
 
@@ -20,7 +23,10 @@ const mutations = {
   },
 
   WALLET_ERROR(state) {
-    state.wallet = {};
+    state.wallet = {
+      currencies: [],
+      stocks: []
+    };
     state.status = "error";
   }
 };
@@ -34,6 +40,12 @@ const actions = {
     } catch (err) {
       commit("WALLET_ERROR");
     }
+  },
+
+  async cashIn({ commit, dispatch }, { currency, amount }) {
+    commit("WALLET_REQUEST");
+    await wallet.cashIn(currency, amount);
+    dispatch("fetchWallet");
   }
 };
 
