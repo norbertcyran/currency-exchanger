@@ -1,70 +1,58 @@
 <template>
-  <div class="mt-4">
-    <StockCard
-      v-for="el in userStocks"
-      :key="el.label"
-      :arrPrices="el.arrPrices"
-      :amount="el.amount"
-      :options="chartOptions"
-      :label="el.label"
-    ></StockCard>
+  <div class="ma-4">
+    <!--    <StockCard-->
+    <!--      v-for="el in userStocks"-->
+    <!--      :key="el.label"-->
+    <!--      :arrPrices="el.arrPrices"-->
+    <!--      :amount="el.amount"-->
+    <!--      :options="chartOptions"-->
+    <!--      :label="el.label"-->
+    <!--    ></StockCard>-->
+    <v-row>
+      <v-col cols="12">
+        <h3>Your stocks</h3>
+      </v-col>
+    </v-row>
+    <v-data-table> </v-data-table>
+    <v-row>
+      <v-col cols="12">
+        <h3>Stocks</h3>
+      </v-col>
+    </v-row>
+    <v-data-table
+      :headers="headers"
+      :items="stocks"
+      :loading="loading"
+      loading-text="Loading stocks..."
+    >
+    </v-data-table>
   </div>
 </template>
 <script>
-import StockCard from "../components/StockCard";
 import stockAPI from "../api/stocks";
 export default {
   data: () => ({
-    userStocks: [
-      {
-        label: "cos",
-        amount: 3,
-        arrPrices: [
-          {
-            date: "13/12/2020",
-            price: 18
-          },
-          {
-            date: "12/12/2020",
-            price: 12
-          }
-        ]
-      },
-      {
-        label: "cos2",
-        amount: 6,
-        arrPrices: [
-          {
-            date: "13/12/2020",
-            price: 18
-          },
-          {
-            date: "12/12/2020",
-            price: 22
-          }
-        ]
-      }
+    loading: true,
+    headers: [
+      { text: "Stock code", value: "symbol" },
+      { text: "Price (EUR)", value: "price" }
     ],
-    chartOptions: {
-      responsive: true,
-      maintainAspectRatio: false
-    }
+    stocks: []
   }),
   methods: {
-    async getUserStocks() {
+    async getStocks() {
       try {
-        const response = await stockAPI.getUserStocks();
-        this.userStocks = response.data.Stocks;
+        const response = await stockAPI.getStocks();
+        this.stocks = response.data;
       } catch (err) {
         console.log(err);
+      } finally {
+        this.loading = false;
       }
     }
   },
-  created() {
-    this.getUserStocks();
-  },
-  components: {
-    StockCard
+  async created() {
+    await this.getStocks();
   }
 };
 </script>

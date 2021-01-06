@@ -1,8 +1,8 @@
 <template>
-  <v-card class="mx-auto" width="700" height="600">
+  <v-card class="mx-auto" width="850" height="600">
     <v-navigation-drawer permanent width="100%">
       <v-row class="fill-height" no-gutters>
-        <v-navigation-drawer dark permanent>
+        <v-navigation-dzrawer dark permanent>
           <v-list dense>
             <v-subheader>Wallet</v-subheader>
             <v-list-item-group v-model="selectedItem" color="primary">
@@ -17,7 +17,7 @@
               </v-list-item>
             </v-list-item-group>
           </v-list>
-        </v-navigation-drawer>
+        </v-navigation-dzrawer>
 
         <div v-if="this.selectedItem == 0"><WalletCurrency /></div>
         <div v-if="this.selectedItem == 1"><WalletStock /></div>
