@@ -1,3 +1,38 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@macikoj 
+norbertcyran
+/
+currency-exchanger
+Private
+2
+00
+Code
+Issues
+4
+Pull requests
+1
+Actions
+Projects
+1
+Wiki
+Security
+Insights
+currency-exchanger/frontend/src/views/Profile.vue
+@macikoj
+macikoj some fixes
+Latest commit 6550ec7 2 days ago
+ History
+ 2 contributors
+@macikoj@norbertcyran
+109 lines (109 sloc)  3.07 KB
+  
 <template>
   <v-container>
     <v-layout align-center justify-center>
@@ -21,20 +56,18 @@
               <CurrencyExchangeCard
                 v-for="(el, index) in userCurrencyExchanges"
                 :key="index"
-                :currencyFrom="el.currencyFrom"
-                :currencyTo="el.currencyTo"
-                :fromAmount="el.fromAmount"
-                :toAmount="el.toAmount"
-                :rate="el.rate"
+                :currencyFrom="el.currency_from"
+                :currencyTo="el.currency_to"
+                :fromAmount="parseFloat(el.amount)"
+                :toAmount="parseFloat(el.amount_to)"
               ></CurrencyExchangeCard>
               <StockCard
                 v-for="(el, index) in userStockTransactions"
                 :key="index"
-                :currency="el.currency"
-                :currencyAmount="el.currencyAmount"
-                :stockName="el.stockName"
-                :stockAmount="el.stockAmount"
-                :time="el.time"
+                :currencyAmount="parseFloat(el.price)"
+                :stockName="el.stock"
+                :stockAmount="parseInt(el.amount)"
+                :time="el.id"
               ></StockCard>
             </v-card-text>
             <v-divider light></v-divider>
@@ -48,48 +81,51 @@
 import TransferCard from "../components/ProfileTransactions/TransferCard";
 import CurrencyExchangeCard from "../components/ProfileTransactions/CurrencyExchangeCard";
 import StockCard from "../components/ProfileTransactions/StockCard";
+import currenciesAPI from "../api/currencies"
+import stocksAPI from "../api/stocks"
+import transferAPI from '../api/transfers'
 export default {
   data: () => ({
     recentTransactions: [],
-    userTransfers: [
-      {
-        title: "money transfer1",
-        isOutgoing: true,
-        amount: 41,
-        otherUser: "gaws@gmail.com",
-        currency: "zloty"
-      },
-      {
-        title: "money transfer2",
-        isOutgoing: false,
-        amount: 41,
-        otherUser: "gaws@gmail.com",
-        currency: "zloty"
-      }
-    ],
-    userCurrencyExchanges: [
-      {
-        currencyFrom: "zloty",
-        currencyTo: "euro",
-        fromAmount: 12,
-        toAmount: 48,
-        rate: 4
-      }
-    ],
-
-    userStockTransactions: [
-      {
-        currency: "zloty",
-        currencyAmount: 45,
-        stockName: "Tesla",
-        stockAmount: 2
-      }
-    ]
+    userTransfers: [],
+    userCurrencyExchanges: [],
+    userStockTransactions: [],
   }),
   components: {
     TransferCard,
     CurrencyExchangeCard,
-    StockCard
+    StockCard,
+  },
+  methods:{
+    async getUserExchanges() {
+      try {
+       const response =await currenciesAPI.getCurrencyExchanges()
+        this.userCurrencyExchanges = response.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async getUserStockTransfers() {
+      try {
+       const response =await stocksAPI.getStockTransfers()
+        this.userStockTransactions = response.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+        async getUserTransfers() {
+      try {
+       const response =await transferAPI.getTransfers()
+        this.userTransfers = response.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+ mounted(){
+   this.getUserExchanges()
+   this.getUserStockTransfers()
+   this.getUserTransfers()
   }
 };
 </script>
