@@ -34,7 +34,7 @@ DEBUG = env.bool("DEBUG", False)
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", [])
 
-SENTRY_DSN = env.str("SENTRY_DSN")
+SENTRY_DSN = env.str("SENTRY_DSN", default="")
 if SENTRY_DSN:
     sentry_sdk.init(
         dsn=SENTRY_DSN,
