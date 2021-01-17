@@ -13,28 +13,28 @@
                 v-for="(el, index) in userTransfers"
                 :key="index"
                 :currency="el.currency"
-                :amount="el.amount"
-                :isOutgoing="el.isOutgoing"
-                :otherUser="el.otherUser"
+                :amount="parseFloat(el.amount)"
+                :userTo="el.user_to.username"
+                :userFrom="el.user_from.username"
+                :userFromId="el.user_from.id"
+                :userId="wallet.id"
                 :title="el.title"
               ></TransferCard>
               <CurrencyExchangeCard
                 v-for="(el, index) in userCurrencyExchanges"
                 :key="index"
-                :currencyFrom="el.currencyFrom"
-                :currencyTo="el.currencyTo"
-                :fromAmount="el.fromAmount"
-                :toAmount="el.toAmount"
-                :rate="el.rate"
+                :currencyFrom="el.currency_from"
+                :currencyTo="el.currency_to"
+                :fromAmount="parseFloat(el.amount)"
+                :toAmount="parseFloat(el.amount_to)"
               ></CurrencyExchangeCard>
               <StockCard
                 v-for="(el, index) in userStockTransactions"
                 :key="index"
-                :currency="el.currency"
-                :currencyAmount="el.currencyAmount"
-                :stockName="el.stockName"
-                :stockAmount="el.stockAmount"
-                :time="el.time"
+                :currencyAmount="parseFloat(el.price)"
+                :stockName="el.stock"
+                :stockAmount="parseInt(el.amount)"
+                :time="el.id"
               ></StockCard>
             </v-card-text>
             <v-divider light></v-divider>
@@ -48,48 +48,57 @@
 import TransferCard from "../components/ProfileTransactions/TransferCard";
 import CurrencyExchangeCard from "../components/ProfileTransactions/CurrencyExchangeCard";
 import StockCard from "../components/ProfileTransactions/StockCard";
+import currenciesAPI from "../api/currencies";
+import stocksAPI from "../api/stocks";
+import transferAPI from "../api/transfers";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data: () => ({
     recentTransactions: [],
-    userTransfers: [
-      {
-        title: "money transfer1",
-        isOutgoing: true,
-        amount: 41,
-        otherUser: "gaws@gmail.com",
-        currency: "zloty"
-      },
-      {
-        title: "money transfer2",
-        isOutgoing: false,
-        amount: 41,
-        otherUser: "gaws@gmail.com",
-        currency: "zloty"
-      }
-    ],
-    userCurrencyExchanges: [
-      {
-        currencyFrom: "zloty",
-        currencyTo: "euro",
-        fromAmount: 12,
-        toAmount: 48,
-        rate: 4
-      }
-    ],
-
-    userStockTransactions: [
-      {
-        currency: "zloty",
-        currencyAmount: 45,
-        stockName: "Tesla",
-        stockAmount: 2
-      }
-    ]
+    userTransfers: [],
+    userCurrencyExchanges: [],
+    userStockTransactions: []
   }),
+  computed: {
+    ...mapGetters(["wallet"])
+  },
   components: {
     TransferCard,
     CurrencyExchangeCard,
     StockCard
+  },
+  methods: {
+    ...mapActions(["fetchWallet"]),
+    async getUserExchanges() {
+      try {
+        const response = await currenciesAPI.getCurrencyExchanges();
+        this.userCurrencyExchanges = response.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async getUserStockTransfers() {
+      try {
+        const response = await stocksAPI.getStockTransfers();
+        this.userStockTransactions = response.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
+    async getUserTransfers() {
+      try {
+        const response = await transferAPI.getTransfers();
+        this.userTransfers = response.data;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  },
+  mounted() {
+    this.getUserExchanges();
+    this.getUserStockTransfers();
+    this.getUserTransfers();
   }
 };
 </script>

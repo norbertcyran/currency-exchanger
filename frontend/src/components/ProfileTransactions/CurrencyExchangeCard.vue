@@ -4,12 +4,12 @@
     <v-card-text>
       <div>
         {{ this.currencyFrom }}:<strong class="red--text text--lighten-1">
-          -{{ this.fromAmount.toFixed(2) }} {{ this.shortcutFrom }}</strong
+          -{{ this.fromAmount.toFixed(2) }} {{ this.currency }}</strong
         >
 
         <div class="float-right">
           {{ this.currencyTo }}:<strong class="green--text text--lighten-1">
-            {{ this.toAmount.toFixed(2) }} {{ this.shortcutTo }}</strong
+            {{ this.toAmount.toFixed(2) }} {{ this.currency }}</strong
           >
         </div>
       </div>
@@ -31,10 +31,10 @@ export default {
     fromAmount: {
       type: Number
     },
-
-    rate: {
+    toAmount: {
       type: Number
     },
+
     time: {}
   },
   computed: {
@@ -43,9 +43,6 @@ export default {
     },
     shortcutTo: function() {
       return this.getShortcut(this.currencyTo);
-    },
-    toAmount: function() {
-      return (this.currencyFrom * this.rate).toFixed(2);
     }
   },
   methods: {
