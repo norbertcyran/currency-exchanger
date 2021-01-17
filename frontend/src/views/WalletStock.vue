@@ -40,9 +40,12 @@
     </v-row>
     <v-data-table
       :headers="headers"
-      :items="stocks"
+      :items="stocksPager.results"
       :loading="loading"
       :search="search"
+      :options.sync="options"
+      :server-items-length="stocksPager.count"
+      :footer-props="{ itemsPerPageOptions: [5, 10, 20, 100] }"
       loading-text="Loading stocks..."
     >
       <template v-slot:item.actions="{ item }">
@@ -77,11 +80,13 @@
   </div>
 </template>
 <script>
+import _ from "lodash";
 import { mapActions, mapGetters } from "vuex";
 import stockAPI from "../api/stocks";
 export default {
   data: () => ({
     search: "",
+    options: {},
     loading: true,
     userStocksHeaders: [
       { text: "Stock code", value: "symbol" },
@@ -93,7 +98,12 @@ export default {
       { text: "Price (EUR)", value: "price" },
       { text: "Actions", value: "actions", sortable: false, align: "end" }
     ],
-    stocks: [],
+    stocksPager: {
+      results: [],
+      count: 0,
+      previous: null,
+      next: null
+    },
     snackbar: false,
     errorText: ""
   }),
@@ -101,10 +111,24 @@ export default {
     ...mapGetters(["wallet"])
   },
   methods: {
-    async getStocks() {
+    async getStocks(
+      { page, itemsPerPage, sortBy, sortDesc } = {},
+      search = ""
+    ) {
+      const ordering =
+        sortBy && sortDesc
+          ? sortBy
+              .map((el, index) => `${sortDesc[index] ? "-" : ""}${el}`)
+              .join(",")
+          : null;
       try {
-        const response = await stockAPI.getStocks();
-        this.stocks = response.data;
+        const response = await stockAPI.getStocks({
+          limit: itemsPerPage,
+          offset: (page - 1) * itemsPerPage,
+          ordering: ordering,
+          search: search
+        });
+        this.stocksPager = response.data;
       } catch (err) {
         console.log(err);
       } finally {
@@ -131,7 +155,24 @@ export default {
       }
     },
 
+    debouncedGetStocks: _.debounce(async function(options = {}, search = "") {
+      await this.getStocks(options, search);
+    }, 200),
+
     ...mapActions(["fetchWallet"])
+  },
+  watch: {
+    options: {
+      deep: true,
+      async handler(options) {
+        await this.getStocks(options, this.search);
+      }
+    },
+    search: {
+      async handler(newSearch) {
+        await this.debouncedGetStocks(this.options, newSearch);
+      }
+    }
   },
   async created() {
     await this.getStocks();
