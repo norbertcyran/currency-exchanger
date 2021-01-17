@@ -4,6 +4,6 @@ export default {
     return Vue.axios.get("/api/stocks/");
   },
   async stockTransaction(data) {
-    return Vue.axiost.post("/api/stocktransfers/", data);
+    return Vue.axios.post("/api/stocktransfers/", data);
   }
 };
