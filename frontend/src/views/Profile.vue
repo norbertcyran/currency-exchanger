@@ -1,38 +1,3 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@macikoj 
-norbertcyran
-/
-currency-exchanger
-Private
-2
-00
-Code
-Issues
-4
-Pull requests
-1
-Actions
-Projects
-1
-Wiki
-Security
-Insights
-currency-exchanger/frontend/src/views/Profile.vue
-@macikoj
-macikoj some fixes
-Latest commit 6550ec7 2 days ago
- History
- 2 contributors
-@macikoj@norbertcyran
-109 lines (109 sloc)  3.07 KB
-  
 <template>
   <v-container>
     <v-layout align-center justify-center>
@@ -48,9 +13,11 @@ Latest commit 6550ec7 2 days ago
                 v-for="(el, index) in userTransfers"
                 :key="index"
                 :currency="el.currency"
-                :amount="el.amount"
-                :isOutgoing="el.isOutgoing"
-                :otherUser="el.otherUser"
+                :amount="parseFloat(el.amount)"
+                :userTo="el.user_to.username"
+                :userFrom="el.user_from.username"
+                :userFromId="el.user_from.id"
+                :userId="wallet.id"
                 :title="el.title"
               ></TransferCard>
               <CurrencyExchangeCard
@@ -84,6 +51,7 @@ import StockCard from "../components/ProfileTransactions/StockCard";
 import currenciesAPI from "../api/currencies"
 import stocksAPI from "../api/stocks"
 import transferAPI from '../api/transfers'
+import { mapActions,mapGetters } from "vuex";
 export default {
   data: () => ({
     recentTransactions: [],
@@ -91,12 +59,16 @@ export default {
     userCurrencyExchanges: [],
     userStockTransactions: [],
   }),
+  computed:{
+    ...mapGetters(["wallet"]),
+  },
   components: {
     TransferCard,
     CurrencyExchangeCard,
     StockCard,
   },
   methods:{
+    ...mapActions(["fetchWallet"]),
     async getUserExchanges() {
       try {
        const response =await currenciesAPI.getCurrencyExchanges()
@@ -113,6 +85,7 @@ export default {
         console.log(err);
       }
     },
+    
         async getUserTransfers() {
       try {
        const response =await transferAPI.getTransfers()
@@ -121,6 +94,7 @@ export default {
         console.log(err);
       }
     },
+
   },
  mounted(){
    this.getUserExchanges()

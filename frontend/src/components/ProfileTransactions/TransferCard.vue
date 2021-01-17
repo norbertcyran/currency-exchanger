@@ -2,20 +2,20 @@
   <v-card display="block" class="mb-4">
     <v-card-title class="body-2"> Money transfer </v-card-title>
     <v-card-text
-      >Title: {{ title }}
+      ><p v-if="title"> Title: {{ title }}</p>
       <div v-if="isOutgoing">
-        To: {{ this.otherUser }}
+        To: {{ this.userTo }}
         <div class="float-right">
           <strong class="red--text text--lighten-1">
-            -{{ this.amount.toFixed(2) }} {{ this.shortcut }}</strong
+            -{{ this.amount.toFixed(2) }} {{ this.currency }}</strong
           >
         </div>
       </div>
       <div v-else>
-        From: {{ this.otherUser }}
+        From: {{ this.userFrom }}
         <div class="float-right">
           <strong class="green--text text--lighten-1">
-            {{ this.amount.toFixed(2) }} {{ this.shortcut }}</strong
+            {{ this.amount.toFixed(2) }} {{ this.currency}}</strong
           >
         </div>
       </div>
@@ -31,8 +31,18 @@ export default {
     title: {
       type: String
     },
-    isOutgoing: {
-      type: Boolean
+
+    userId:{
+      type:Number
+    },
+    userTo:{
+      type:String
+    },
+    userFrom:{
+      type:String
+    },
+    userFromId:{
+      type:Number
     },
     otherUser: {
       type: String
@@ -48,6 +58,10 @@ export default {
   computed: {
     shortcut: function() {
       return this.getShortcut(this.currency);
+    },
+    isOutgoing: function(){
+      var x=this.userFromId==this.userId
+      return x
     }
   },
   methods: {
