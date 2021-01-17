@@ -11,9 +11,12 @@ from rest_framework.viewsets import ModelViewSet
 
 class StockViewSet(HistoricalModelViewSet):
     queryset = Stock.objects.all()
-    history_model = StockHistory
+    lookup_field = "symbol"
     history_serializer_class = StockHistorySerializer
     serializer_class = StockSerializer
+
+    def get_history_queryset(self):
+        return StockHistory.objects.filter(stocks__symbol=self.kwargs["symbol"])
 
 
 class StockTransferViewSet(ModelViewSet):
