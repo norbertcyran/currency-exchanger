@@ -5,15 +5,21 @@ from currency_exchanger.stocks.serializers import (
     StockTransferSerializer,
 )
 from currency_exchanger.views import HistoricalModelViewSet
+from rest_framework import filters
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 
 class StockViewSet(HistoricalModelViewSet):
-    queryset = Stock.objects.all()
+    queryset = Stock.objects.order_by("symbol")
     lookup_field = "symbol"
     history_serializer_class = StockHistorySerializer
     serializer_class = StockSerializer
+    pagination_class = LimitOffsetPagination
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    ordering_fields = ["symbol", "price"]
+    search_fields = ["symbol"]
 
     def get_history_queryset(self):
         return StockHistory.objects.filter(stocks__symbol=self.kwargs["symbol"])
