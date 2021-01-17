@@ -3,8 +3,10 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 
 
 class HistoricalModelViewSet(ReadOnlyModelViewSet):
-    history_model = None
     history_serializer_class = None
+
+    def get_history_queryset(self):
+        raise NotImplementedError
 
     def get_serializer_class(self):
         if self.action == "history":
@@ -13,7 +15,7 @@ class HistoricalModelViewSet(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         if self.action == "history":
-            return self.history_model.objects.filter(currency=self.get_object())
+            return self.get_history_queryset()
         return super().get_queryset()
 
     @action(detail=True)

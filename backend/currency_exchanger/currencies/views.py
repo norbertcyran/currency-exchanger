@@ -18,9 +18,11 @@ from rest_framework.viewsets import ModelViewSet
 class CurrencyViewSet(HistoricalModelViewSet):
     queryset = Currency.objects.order_by("code")
     lookup_field = "code"
-    history_model = CurrencyHistory
     history_serializer_class = CurrencyHistorySerializer
     serializer_class = CurrencySerializer
+
+    def get_history_queryset(self):
+        return CurrencyHistory.objects.filter(currency__code=self.kwargs["code"])
 
 
 class CurrencyExchangeViewSet(ModelViewSet):
