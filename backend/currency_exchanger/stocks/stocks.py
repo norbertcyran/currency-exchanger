@@ -13,6 +13,7 @@ def update_stocks() -> None:
 
     for item in stocks:
         stock, _ = Stock.objects.update_or_create(
-            symbol=item["T"], defaults={"price": item["c"], "currency": Currency.objects.get(pk=47)}
+            symbol=item["T"],
+            defaults={"price": item["c"], "currency": Currency.objects.get(code="EUR")},
         )
         StockHistory.objects.create(stocks=stock, price=item["c"])

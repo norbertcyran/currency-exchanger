@@ -20,20 +20,21 @@ class StockHistorySerializer(serializers.ModelSerializer):
 
 
 class WalletStockSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField(source="stock.id")
-    symbol = serializers.ReadOnlyField(source="stock.symbol")
-    currency = serializers.StringRelatedField(source="stock.currency")
-    price = serializers.ReadOnlyField(source="stock.price")
+    id = serializers.ReadOnlyField(source="stocks.id")
+    symbol = serializers.ReadOnlyField(source="stocks.symbol")
+    price = serializers.ReadOnlyField(source="stocks.price")
 
     class Meta:
         model = WalletStock
-        fields = ("id", "symbol", "currency", "price", "count")
+        fields = ("id", "symbol", "price", "count")
 
 
 class StockTransferSerializer(serializers.ModelSerializer):
+    stock = serializers.SlugRelatedField(slug_field="symbol", queryset=Stock.objects.all())
+
     class Meta:
         model = StockTransfer
-        fields = ("stock", "amount")
+        fields = ("id", "stock", "amount")
         read_only_fields = ["wallet"]
 
     def validate(self, attrs):
