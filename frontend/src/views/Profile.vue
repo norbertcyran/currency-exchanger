@@ -48,30 +48,30 @@
 import TransferCard from "../components/ProfileTransactions/TransferCard";
 import CurrencyExchangeCard from "../components/ProfileTransactions/CurrencyExchangeCard";
 import StockCard from "../components/ProfileTransactions/StockCard";
-import currenciesAPI from "../api/currencies"
-import stocksAPI from "../api/stocks"
-import transferAPI from '../api/transfers'
-import { mapActions,mapGetters } from "vuex";
+import currenciesAPI from "../api/currencies";
+import stocksAPI from "../api/stocks";
+import transferAPI from "../api/transfers";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data: () => ({
     recentTransactions: [],
     userTransfers: [],
     userCurrencyExchanges: [],
-    userStockTransactions: [],
+    userStockTransactions: []
   }),
-  computed:{
-    ...mapGetters(["wallet"]),
+  computed: {
+    ...mapGetters(["wallet"])
   },
   components: {
     TransferCard,
     CurrencyExchangeCard,
-    StockCard,
+    StockCard
   },
-  methods:{
+  methods: {
     ...mapActions(["fetchWallet"]),
     async getUserExchanges() {
       try {
-       const response =await currenciesAPI.getCurrencyExchanges()
+        const response = await currenciesAPI.getCurrencyExchanges();
         this.userCurrencyExchanges = response.data;
       } catch (err) {
         console.log(err);
@@ -79,27 +79,26 @@ export default {
     },
     async getUserStockTransfers() {
       try {
-       const response =await stocksAPI.getStockTransfers()
+        const response = await stocksAPI.getStockTransfers();
         this.userStockTransactions = response.data;
       } catch (err) {
         console.log(err);
       }
     },
-    
-        async getUserTransfers() {
+
+    async getUserTransfers() {
       try {
-       const response =await transferAPI.getTransfers()
+        const response = await transferAPI.getTransfers();
         this.userTransfers = response.data;
       } catch (err) {
         console.log(err);
       }
-    },
-
+    }
   },
- mounted(){
-   this.getUserExchanges()
-   this.getUserStockTransfers()
-   this.getUserTransfers()
+  mounted() {
+    this.getUserExchanges();
+    this.getUserStockTransfers();
+    this.getUserTransfers();
   }
 };
 </script>

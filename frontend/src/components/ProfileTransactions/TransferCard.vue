@@ -2,7 +2,7 @@
   <v-card display="block" class="mb-4">
     <v-card-title class="body-2"> Money transfer </v-card-title>
     <v-card-text
-      ><p v-if="title"> Title: {{ title }}</p>
+      ><p v-if="title">Title: {{ title }}</p>
       <div v-if="isOutgoing">
         To: {{ this.userTo }}
         <div class="float-right">
@@ -15,7 +15,7 @@
         From: {{ this.userFrom }}
         <div class="float-right">
           <strong class="green--text text--lighten-1">
-            {{ this.amount.toFixed(2) }} {{ this.currency}}</strong
+            {{ this.amount.toFixed(2) }} {{ this.currency }}</strong
           >
         </div>
       </div>
@@ -32,17 +32,17 @@ export default {
       type: String
     },
 
-    userId:{
-      type:Number
+    userId: {
+      type: Number
     },
-    userTo:{
-      type:String
+    userTo: {
+      type: String
     },
-    userFrom:{
-      type:String
+    userFrom: {
+      type: String
     },
-    userFromId:{
-      type:Number
+    userFromId: {
+      type: Number
     },
     otherUser: {
       type: String
@@ -59,9 +59,9 @@ export default {
     shortcut: function() {
       return this.getShortcut(this.currency);
     },
-    isOutgoing: function(){
-      var x=this.userFromId==this.userId
-      return x
+    isOutgoing: function() {
+      var x = this.userFromId == this.userId;
+      return x;
     }
   },
   methods: {

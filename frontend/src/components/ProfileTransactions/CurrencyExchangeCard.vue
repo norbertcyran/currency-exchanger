@@ -31,10 +31,9 @@ export default {
     fromAmount: {
       type: Number
     },
-        toAmount: {
+    toAmount: {
       type: Number
     },
-
 
     time: {}
   },
@@ -44,8 +43,7 @@ export default {
     },
     shortcutTo: function() {
       return this.getShortcut(this.currencyTo);
-    },
-
+    }
   },
   methods: {
     getShortcut(currency) {
