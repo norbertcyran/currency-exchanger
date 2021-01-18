@@ -33,3 +33,5 @@ services:
     command: celery -A currency_exchanger beat -l INFO
     depends_on:
       - rabbitmq
+    env_file:
+      - backend/.env
