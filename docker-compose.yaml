@@ -13,5 +13,7 @@ services:
     command: celery -A currency_exchanger worker -l INFO
     depends_on:
       - rabbitmq
+    env_file:
+      - backend/.env
 volumes:
   postgres-data:

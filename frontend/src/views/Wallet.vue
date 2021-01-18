@@ -2,22 +2,20 @@
   <v-card class="mx-auto" width="850" height="600">
     <v-navigation-drawer permanent width="100%">
       <v-row class="fill-height" no-gutters>
-        <v-navigation-dzrawer dark permanent>
-          <v-list dense>
-            <v-subheader>Wallet</v-subheader>
-            <v-list-item-group v-model="selectedItem" color="primary">
-              <v-list-item v-for="([icon, text], i) in items" :key="i">
-                <v-list-item-icon>
-                  <v-icon>{{ icon }}</v-icon>
-                </v-list-item-icon>
+        <v-list dense>
+          <v-subheader>Wallet</v-subheader>
+          <v-list-item-group v-model="selectedItem" color="primary">
+            <v-list-item v-for="([icon, text], i) in items" :key="i">
+              <v-list-item-icon>
+                <v-icon>{{ icon }}</v-icon>
+              </v-list-item-icon>
 
-                <v-list-item-content>
-                  <v-list-item-title>{{ text }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list-item-group>
-          </v-list>
-        </v-navigation-dzrawer>
+              <v-list-item-content>
+                <v-list-item-title>{{ text }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
 
         <div v-if="this.selectedItem == 0"><WalletCurrency /></div>
         <div v-if="this.selectedItem == 1"><WalletStock /></div>
