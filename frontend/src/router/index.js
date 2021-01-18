@@ -2,10 +2,10 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "@/views/Login";
 import Signup from "@/views/Signup";
-import StockPrices from "@/views/StockPrices";
 import Wallet from "@/views/Wallet";
 import Profile from "@/views/Profile";
 import HomePage from "@/views/HomePage";
+import store from "@/store";
 
 Vue.use(VueRouter);
 
@@ -26,19 +26,16 @@ const routes = [
     name: "Signup"
   },
   {
-    path: "/stockprices",
-    component: StockPrices,
-    name: "StockPrices"
-  },
-  {
     path: "/wallet",
     component: Wallet,
-    name: "Wallet"
+    name: "Wallet",
+    meta: { requiresAuth: true }
   },
   {
     path: "/profile",
     component: Profile,
-    name: "Profile"
+    name: "Profile",
+    meta: { requiresAuth: true }
   }
 ];
 
@@ -46,6 +43,21 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.getters.isAuthenticated) {
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath }
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;

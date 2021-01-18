@@ -24,13 +24,10 @@
       </router-link>
 
       <v-spacer></v-spacer>
-      <v-btn text to="/stockprices">
-        <span class="mr-2">Stock prices</span>
-      </v-btn>
-      <v-btn text to="/wallet">
+      <v-btn v-if="isAuthenticated" text to="/wallet">
         <span class="mr-2">Wallet</span>
       </v-btn>
-      <v-btn text to="/profile">
+      <v-btn v-if="isAuthenticated" text to="/profile">
         <span class="mr-2">Profile</span>
       </v-btn>
       <v-btn v-if="isAuthenticated" @click="logout()" text>
@@ -63,7 +60,11 @@ export default {
   },
 
   methods: {
-    ...mapActions(["logout", "fetchUser", "fetchWallet"])
+    async logout() {
+      await this.$store.dispatch("logout");
+      if (this.$route.path !== "/") await this.$router.push("/");
+    },
+    ...mapActions(["fetchUser", "fetchWallet"])
   },
 
   async created() {
